@@ -3,6 +3,9 @@ if exists('g:loaded_airline_settings')
 endif
 let g:loaded_airline_settings = 1
 
+" Disable truncation
+let g:airline#extensions#default#section_truncate_width = {}
+
 let g:airline_ignore_extensions = [
             \ 'anzu',   'bufferline', 'capslock',   'commandt',   'csv',        'eclim',
             \ 'hunks',  'netrw',      'obsession',  'po',         'promptline', 'syntastic',
