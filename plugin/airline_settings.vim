@@ -7,9 +7,24 @@ let g:loaded_airline_settings = 1
 let g:airline#extensions#default#section_truncate_width = {}
 
 let g:airline_ignore_extensions = [
-            \ 'anzu',   'bufferline', 'capslock',   'commandt',   'csv',        'eclim',
-            \ 'hunks',  'netrw',      'obsession',  'po',         'promptline', 'syntastic',
-            \ 'tagbar', 'tmuxline',   'whitespace', 'windowswap', 'wordcount',  'ycm',
+            \ 'anzu',
+            \ 'bufferline',
+            \ 'capslock',
+            \ 'commandt',
+            \ 'csv',
+            \ 'eclim',
+            \ 'hunks',
+            \ 'obsession',
+            \ 'po',
+            \ 'promptline',
+            \ 'syntastic',
+            \ 'ale',
+            \ 'tagbar',
+            \ 'tmuxline',
+            \ 'whitespace',
+            \ 'windowswap',
+            \ 'wordcount',
+            \ 'ycm',
             \ ]
 
 for ext in g:airline_ignore_extensions
