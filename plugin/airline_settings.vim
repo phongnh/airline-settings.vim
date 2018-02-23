@@ -53,6 +53,7 @@ let g:airline#extensions#tabline#tabs_label      = 'Tabs'
 let g:airline#extensions#tabline#buffers_label   = 'Buffers'
 let g:airline#extensions#tabline#buffer_nr_show  = 1
 let g:airline#extensions#tabline#fnamemod        = ':t'
+let g:airline#extensions#tabline#fnametruncate   = 30
 
 if exists("$POWERLINE") || get(g:, 'airline_settings_powerline', 0)
     let g:airline_powerline_fonts = 1
