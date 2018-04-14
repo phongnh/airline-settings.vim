@@ -8,7 +8,6 @@ let g:airline#extensions#default#section_truncate_width = {}
 
 " Disable some extensions
 let g:airline_ignore_extensions = [
-            \ 'ale',
             \ 'bufferline',
             \ 'capslock',
             \ 'commandt',
@@ -23,7 +22,6 @@ let g:airline_ignore_extensions = [
             \ 'obsession',
             \ 'po',
             \ 'promptline',
-            \ 'syntastic',
             \ 'tagbar',
             \ 'tmuxline',
             \ 'vimtex',
@@ -32,7 +30,6 @@ let g:airline_ignore_extensions = [
             \ 'windowswap',
             \ 'wordcount',
             \ 'xkblayout',
-            \ 'ycm',
             \ ]
 
 for ext in g:airline_ignore_extensions
