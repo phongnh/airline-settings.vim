@@ -52,6 +52,9 @@ let g:airline#extensions#tabline#buffer_nr_show  = 1
 let g:airline#extensions#tabline#fnamemod        = ':t'
 let g:airline#extensions#tabline#fnametruncate   = 30
 
+" Branch - show only 30 characters of branch name
+let g:airline#extensions#branch#displayed_head_limit = 30
+
 if get(g:, 'airline_powerline', 0)
     let g:airline_powerline_fonts = 1
 else
