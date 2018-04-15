@@ -55,6 +55,9 @@ let g:airline#extensions#tabline#fnametruncate   = 30
 " Branch - show only 30 characters of branch name
 let g:airline#extensions#branch#displayed_head_limit = 30
 
+" Don't show 'utf-8[unix]'
+let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
+
 if get(g:, 'airline_powerline', 0)
     let g:airline_powerline_fonts = 1
 else
