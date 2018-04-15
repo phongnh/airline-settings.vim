@@ -72,16 +72,13 @@ else
     let g:airline#extensions#tabline#close_symbol = '×'
 endif
 
-" Define clipboard part
-call airline#parts#define('clipboard', {
-            \ 'function': 'AirlineClipboard',
-            \ })
+" Define extra parts
+call airline#parts#define_function('clipboard', 'AirlineClipboard')
+call airline#parts#define_function('spaces', 'AirlineSpaces')
 
 function! AirlineClipboard() abort
     return match(&clipboard, 'unnamed') > -1 ? '@' : ''
 endfunction
-
-call airline#parts#define_function('spaces', 'AirlineSpaces')
 
 function! AirlineSpaces() abort
     let shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
