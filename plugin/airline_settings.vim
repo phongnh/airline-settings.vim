@@ -81,10 +81,17 @@ function! AirlineClipboard() abort
     return match(&clipboard, 'unnamed') > -1 ? '@' : ''
 endfunction
 
+call airline#parts#define_function('spaces', 'AirlineSpaces')
+
+function! AirlineSpaces() abort
+    let shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
+    return (&expandtab ? 'Spaces' : 'Tab Size') . ': ' . shiftwidth
+endfunction
+
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left(['mode', 'clipboard', 'crypt', 'paste', 'keymap', 'spell', 'iminsert'])
 " Show only filetype
-let g:airline_section_x = airline#section#create_right(['filetype'])
+let g:airline_section_x = airline#section#create_right(['spaces', 'filetype'])
 " Hide percentage, linenr, maxlinenr and column
 let g:airline_section_z = ''
 
