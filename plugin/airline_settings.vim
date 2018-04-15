@@ -91,7 +91,7 @@ endfunction
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left(['mode', 'clipboard', 'crypt', 'paste', 'keymap', 'spell', 'iminsert'])
 " Show only filetype
-let g:airline_section_x = airline#section#create_right(['spaces', 'filetype'])
+let g:airline_section_x = airline#section#create_right(['gutentags', 'spaces', 'filetype'])
 " Hide percentage, linenr, maxlinenr and column
 let g:airline_section_z = ''
 
