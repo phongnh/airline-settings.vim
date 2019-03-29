@@ -47,6 +47,8 @@ let g:airline#extensions#keymap#enabled = 1
 
 " Enable tabline
 let g:airline#extensions#tabline#enabled         = 1
+let g:airline#extensions#tabline#show_splits     = 0
+let g:airline#extensions#tabline#show_tab_count  = 0
 let g:airline#extensions#tabline#tab_nr_type     = 2
 let g:airline#extensions#tabline#tabnr_formatter = 'custom_tabnr'
 let g:airline#extensions#tabline#tabs_label      = 'Tabs'
