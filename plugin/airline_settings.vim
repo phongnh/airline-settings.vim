@@ -3,9 +3,6 @@ if exists('g:loaded_airline_settings')
 endif
 let g:loaded_airline_settings = 1
 
-" Disable truncation
-let g:airline#extensions#default#section_truncate_width = {}
-
 " Disable some extensions
 let g:airline_ignore_extensions = [
             \ 'bufferline',
@@ -18,7 +15,6 @@ let g:airline_ignore_extensions = [
             \ 'eclim',
             \ 'example',
             \ 'hunks',
-            \ 'keymap',
             \ 'localsearch',
             \ 'netrw',
             \ 'obsession',
@@ -40,11 +36,11 @@ for ext in g:airline_ignore_extensions
     let g:airline#extensions#{ext}#enabled = 0
 endfor
 
+" Disable truncation
+let g:airline#extensions#default#section_truncate_width = {}
+
 " Enable iminsert
 let g:airline_detect_iminsert = 1
-
-" Enable keymap
-let g:airline#extensions#keymap#enabled = 1
 
 " Enable tabline
 let g:airline#extensions#tabline#enabled         = 1
