@@ -75,16 +75,21 @@ else
 endif
 
 " Define extra parts
-call airline#parts#define_function('clipboard', 'AirlineClipboard')
-call airline#parts#define_function('spaces', 'AirlineSpaces')
+call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
+call airline#parts#define_function('spaces', 'AirlineIndentationStatus')
 
-function! AirlineClipboard() abort
-    return match(&clipboard, 'unnamed') > -1 ? '@' : ''
+function! AirlineClipboardStatus() abort
+    return match(&clipboard, 'unnamed') > -1 ? 'ⓒ  ' : ''
 endfunction
 
-function! AirlineSpaces() abort
-    let shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
-    return (&expandtab ? 'Spaces' : 'Tab Size') . ': ' . shiftwidth
+function! AirlineIndentationStatus() abort
+    let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
+    let compact = &spell || &paste
+    if compact
+        return printf(&expandtab ? 'SPC: %d' : 'TAB: %d', l:shiftwidth)
+    else
+        return printf(&expandtab ? 'Spaces: %d' : 'Tab Size: %d', l:shiftwidth)
+    endif
 endfunction
 
 " Show only mode, clipboard, paste and spell
