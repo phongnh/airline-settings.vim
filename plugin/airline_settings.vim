@@ -76,7 +76,7 @@ endif
 
 " Define extra parts
 call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
-call airline#parts#define_function('spaces', 'AirlineIndentationStatus')
+call airline#parts#define_function('indentation', 'AirlineIndentationStatus')
 
 function! AirlineClipboardStatus() abort
     return match(&clipboard, 'unnamed') > -1 ? 'ⓒ  ' : ''
@@ -95,9 +95,12 @@ endfunction
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left(['mode', 'clipboard', 'crypt', 'paste', 'keymap', 'spell', 'iminsert'])
 " Show only filetype
-let g:airline_section_x = airline#section#create_right(['gutentags', 'spaces', 'filetype'])
+let g:airline_section_x = airline#section#create_right(['tagbar', 'vista', 'gutentags', 'indentation', 'filetype'])
 " Hide percentage, linenr, maxlinenr and column
 let g:airline_section_z = ''
+
+let g:airline_section_error   = airline#section#create(['syntastic-err', 'ale_error_count', 'coc_error_count'])
+let g:airline_section_warning = airline#section#create(['syntastic-warn', 'ale_warning_count', 'whitespace', 'coc_warning_count'])
 
 augroup AirlineSettings
     autocmd!
