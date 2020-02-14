@@ -3,6 +3,9 @@ if exists('g:loaded_airline_settings')
 endif
 let g:loaded_airline_settings = 1
 
+" Show File Size
+let g:airline_show_file_size = get(g:, 'airline_show_file_size', 1)
+
 " Disable some extensions
 let g:airline_ignore_extensions = [
             \ 'bufferline',
@@ -76,15 +79,50 @@ endif
 
 " Define extra parts
 call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
+call airline#parts#define_function('paste', 'AirlinePasteStatus')
+call airline#parts#define_function('spell', 'AirlineSpellStatus')
 call airline#parts#define_function('indentation', 'AirlineIndentationStatus')
+call airline#parts#define_function('filesize', 'AirlineFileSizeStatus')
+
+" Copied from https://github.com/ahmedelgabri/dotfiles/blob/master/files/vim/.vim/autoload/statusline.vim
+function! s:FileSize() abort
+    let l:size = getfsize(expand('%'))
+    if l:size == 0 || l:size == -1 || l:size == -2
+        return ''
+    endif
+    if l:size < 1024
+        return l:size . ' bytes'
+    elseif l:size < 1024 * 1024
+        return printf('%.1f', l:size / 1024.0) . 'k'
+    elseif l:size < 1024 * 1024 * 1024
+        return printf('%.1f', l:size / 1024.0 / 1024.0) . 'm'
+    else
+        return printf('%.1f', l:size / 1024.0 / 1024.0 / 1024.0) . 'g'
+    endif
+endfunction
+
+function! AirlineFileSizeStatus() abort
+    if g:airline_show_file_size
+        return s:FileSize()
+    endif
+    return ''
+endfunction
 
 function! AirlineClipboardStatus() abort
     return match(&clipboard, 'unnamed') > -1 ? 'ⓒ  ' : ''
 endfunction
 
+function! AirlinePasteStatus() abort
+    return &paste ? 'Ⓟ  ' : ''
+endfunction
+
+function! AirlineSpellStatus() abort
+    return &spell ? toupper(substitute(&spelllang, ',', '/', 'g')) : ''
+endfunction
+
 function! AirlineIndentationStatus() abort
     let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
-    let compact = &spell || &paste
+    let compact = &spell || &paste || strlen(AirlineClipboardStatus())
     if compact
         return printf(&expandtab ? 'SPC: %d' : 'TAB: %d', l:shiftwidth)
     else
@@ -93,14 +131,39 @@ function! AirlineIndentationStatus() abort
 endfunction
 
 " Show only mode, clipboard, paste and spell
-let g:airline_section_a = airline#section#create_left(['mode', 'clipboard', 'crypt', 'paste', 'keymap', 'spell', 'iminsert'])
+let g:airline_section_a = airline#section#create_left([
+            \ 'mode',
+            \ 'clipboard',
+            \ 'crypt',
+            \ 'paste',
+            \ 'keymap',
+            \ 'spell',
+            \ 'iminsert',
+            \ ])
+
 " Show only filetype
-let g:airline_section_x = airline#section#create_right(['tagbar', 'vista', 'gutentags', 'indentation', 'filetype'])
+let g:airline_section_x = airline#section#create_right([
+            \ 'tagbar',
+            \ 'vista',
+            \ 'gutentags',
+            \ 'indentation',
+            \ 'filetype',
+            \ ])
+
 " Hide percentage, linenr, maxlinenr and column
 let g:airline_section_z = ''
 
-let g:airline_section_error   = airline#section#create(['syntastic-err', 'ale_error_count', 'coc_error_count'])
-let g:airline_section_warning = airline#section#create(['syntastic-warn', 'ale_warning_count', 'whitespace', 'coc_warning_count'])
+let g:airline_section_error   = airline#section#create([
+            \ 'syntastic-err',
+            \ 'ale_error_count',
+            \ 'coc_error_count',
+            \ ])
+let g:airline_section_warning = airline#section#create([
+            \ 'syntastic-warn',
+            \ 'ale_warning_count',
+            \ 'whitespace',
+            \ 'coc_warning_count',
+            \ ])
 
 augroup AirlineSettings
     autocmd!
