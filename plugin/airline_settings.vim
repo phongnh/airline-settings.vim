@@ -96,6 +96,7 @@ let g:airline_symbols.whitespace = 'Ξ'
 call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
 call airline#parts#define_function('indentation', 'AirlineIndentationStatus')
 call airline#parts#define_function('filesize', 'AirlineFileSizeStatus')
+call airline#parts#define_function('ffenc', 'AirlineFileEncodingAndFormatStatus')
 
 function! AirlineClipboardStatus() abort
     return match(&clipboard, 'unnamed') > -1 ? g:airline_symbols.clipboard : ''
@@ -144,6 +145,19 @@ function! AirlineFileSizeStatus() abort
         return s:FileSize()
     endif
     return ''
+endfunction
+
+function! AirlineFileEncodingAndFormatStatus() abort
+    let l:encoding = strlen(&fileencoding) ? &fileencoding : &encoding
+    let l:bomb     = &bomb ? '[BOM]' : ''
+    let l:format   = strlen(&fileformat) ? printf('[%s]', &fileformat) : ''
+
+    " Skip common string utf-8[unix]
+    if (l:encoding . l:format) ==# g:airline#parts#ffenc#skip_expected_string
+        return l:bomb
+    endif
+
+    return l:encoding . l:bomb . l:format
 endfunction
 
 " Show only mode, clipboard, paste and spell
