@@ -181,10 +181,10 @@ let s:has_devicons = findfile('plugin/webdevicons.vim', &rtp) != ''
 
 if s:has_devicons
     function! AirlineWebDevIconsStatus() abort
-        if s:IsCompact()
-            return ''
+        if !s:IsCompact()
+            return WebDevIconsGetFileTypeSymbol() . '  ' . WebDevIconsGetFileFormatSymbol()
         endif
-        return WebDevIconsGetFileTypeSymbol() . '  ' . WebDevIconsGetFileFormatSymbol()
+        return ''
     endfunction
 
     let g:airline_section_z .= '%( %{AirlineWebDevIconsStatus()} %)'
