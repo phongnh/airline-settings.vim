@@ -6,6 +6,10 @@ let g:loaded_airline_settings = 1
 " Show File Size
 let g:airline_show_file_size = get(g:, 'airline_show_file_size', 0)
 
+" Window width
+let s:xsmall_window_width = 60
+let s:small_window_width  = 80
+
 " Disable some extensions
 let g:airline_ignore_extensions = [
             \ 'bufferline',
@@ -97,11 +101,19 @@ function! AirlineClipboardStatus() abort
     return match(&clipboard, 'unnamed') > -1 ? g:airline_symbols.clipboard : ''
 endfunction
 
+function! s:ActiveWindow() abort
+    return get(w:, 'airline_active', 1)
+endfunction
+
 function! s:IsCompact() abort
-    return &spell || &paste || strlen(AirlineClipboardStatus())
+    return &spell || &paste || strlen(AirlineClipboardStatus()) || winwidth(0) <= s:xsmall_window_width
 endfunction
 
 function! AirlineIndentationStatus() abort
+    if !s:ActiveWindow() || winwidth(0) < s:small_window_width
+        return ''
+    endif
+
     let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
     if s:IsCompact()
         return printf(&expandtab ? 'SPC: %d' : 'TAB: %d', l:shiftwidth)
@@ -128,7 +140,7 @@ function! s:FileSize() abort
 endfunction
 
 function! AirlineFileSizeStatus() abort
-    if g:airline_show_file_size && !s:IsCompact()
+    if g:airline_show_file_size && s:ActiveWindow() && winwidth(0) >= s:small_window_width
         return s:FileSize()
     endif
     return ''
@@ -150,15 +162,18 @@ let g:airline_section_x = airline#section#create_right([
             \ 'tagbar',
             \ 'vista',
             \ 'gutentags',
+            \ 'indentation',
+            \ ])
+
+" Add filesize and filetype info
+let g:airline_section_y = airline#section#create_right([
+            \ 'filesize',
+            \ 'ffenc',
+            \ 'filetype',
             \ ])
 
 " Hide percentage, linenr, maxlinenr and column
-" Replace it with indentation and file info status
-let g:airline_section_z = airline#section#create_right([
-            \ 'indentation',
-            \ 'filesize',
-            \ 'filetype',
-            \ ])
+let g:airline_section_z = ''
 
 let g:airline_section_error   = airline#section#create([
             \ 'syntastic-err',
@@ -181,13 +196,14 @@ let s:has_devicons = findfile('plugin/webdevicons.vim', &rtp) != ''
 
 if s:has_devicons
     function! AirlineWebDevIconsStatus() abort
-        if !s:IsCompact()
+        if s:ActiveWindow() && !s:IsCompact()
             return WebDevIconsGetFileTypeSymbol() . '  ' . WebDevIconsGetFileFormatSymbol()
         endif
         return ''
     endfunction
 
-    let g:airline_section_z .= '%( %{AirlineWebDevIconsStatus()} %)'
+    " Append WebDevIcons
+    let g:airline_section_y .= '%( %{AirlineWebDevIconsStatus()} %)'
 endif
 
 augroup AirlineSettings
