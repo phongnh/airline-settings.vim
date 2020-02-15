@@ -63,9 +63,10 @@ let g:airline#extensions#branch#displayed_head_limit = 30
 " Don't show 'utf-8[unix]'
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 
-if get(g:, 'airline_powerline', 0)
-    let g:airline_powerline_fonts = 1
-else
+" Powerline Fonts
+let g:airline_powerline_fonts = get(g:, 'airline_powerline', 0)
+
+if !g:airline_powerline_fonts
     let g:airline_powerline_fonts = 0
     let g:airline_left_sep        = ''
     let g:airline_left_alt_sep    = '|'
@@ -77,12 +78,37 @@ else
     let g:airline#extensions#tabline#close_symbol = '×'
 endif
 
+" Symbols: https://en.wikipedia.org/wiki/Enclosed_Alphanumerics
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+let g:airline_symbols.clipboard  = 'ⓒ '
+let g:airline_symbols.paste      = 'Ⓟ '
+let g:airline_symbols.spell      = 'Ⓢ '
+let g:airline_symbols.whitespace = 'Ξ'
+
 " Define extra parts
 call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
-call airline#parts#define_function('paste', 'AirlinePasteStatus')
-call airline#parts#define_function('spell', 'AirlineSpellStatus')
 call airline#parts#define_function('indentation', 'AirlineIndentationStatus')
 call airline#parts#define_function('filesize', 'AirlineFileSizeStatus')
+
+function! AirlineClipboardStatus() abort
+    return match(&clipboard, 'unnamed') > -1 ? g:airline_symbols.clipboard : ''
+endfunction
+
+function! s:IsCompact() abort
+    return &spell || &paste || strlen(AirlineClipboardStatus())
+endfunction
+
+function! AirlineIndentationStatus() abort
+    let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
+    if s:IsCompact()
+        return printf(&expandtab ? 'SPC: %d' : 'TAB: %d', l:shiftwidth)
+    else
+        return printf(&expandtab ? 'Spaces: %d' : 'Tab Size: %d', l:shiftwidth)
+    endif
+endfunction
 
 " Copied from https://github.com/ahmedelgabri/dotfiles/blob/master/files/vim/.vim/autoload/statusline.vim
 function! s:FileSize() abort
@@ -106,28 +132,6 @@ function! AirlineFileSizeStatus() abort
         return s:FileSize()
     endif
     return ''
-endfunction
-
-function! AirlineClipboardStatus() abort
-    return match(&clipboard, 'unnamed') > -1 ? 'ⓒ  ' : ''
-endfunction
-
-function! AirlinePasteStatus() abort
-    return &paste ? 'Ⓟ  ' : ''
-endfunction
-
-function! AirlineSpellStatus() abort
-    return &spell ? toupper(substitute(&spelllang, ',', '/', 'g')) : ''
-endfunction
-
-function! AirlineIndentationStatus() abort
-    let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
-    let compact = &spell || &paste || strlen(AirlineClipboardStatus())
-    if compact
-        return printf(&expandtab ? 'SPC: %d' : 'TAB: %d', l:shiftwidth)
-    else
-        return printf(&expandtab ? 'Spaces: %d' : 'Tab Size: %d', l:shiftwidth)
-    endif
 endfunction
 
 " Show only mode, clipboard, paste and spell
