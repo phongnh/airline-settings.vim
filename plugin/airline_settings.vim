@@ -4,7 +4,7 @@ endif
 let g:loaded_airline_settings = 1
 
 " Show File Size
-let g:airline_show_file_size = get(g:, 'airline_show_file_size', 1)
+let g:airline_show_file_size = get(g:, 'airline_show_file_size', 0)
 
 " Disable some extensions
 let g:airline_ignore_extensions = [
@@ -128,7 +128,7 @@ function! s:FileSize() abort
 endfunction
 
 function! AirlineFileSizeStatus() abort
-    if g:airline_show_file_size
+    if g:airline_show_file_size && !s:IsCompact()
         return s:FileSize()
     endif
     return ''
