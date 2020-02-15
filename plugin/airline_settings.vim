@@ -221,6 +221,10 @@ if s:has_devicons
     let g:airline_section_y .= '%( %{AirlineWebDevIconsStatus()} %)'
 endif
 
+" FIXME: Hack to disable airline_section_z on Terminal
+call airline#parts#define_text('linenr', '')
+call airline#parts#define_text('maxlinenr', '')
+
 augroup AirlineSettings
     autocmd!
     autocmd VimEnter * set showtabline=1 noshowmode
