@@ -67,6 +67,17 @@ let g:airline#extensions#branch#displayed_head_limit = 30
 " Don't show 'utf-8[unix]'
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 
+" Symbols: https://en.wikipedia.org/wiki/Enclosed_Alphanumerics
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+let g:airline_symbols.clipboard  = 'ⓒ '
+let g:airline_symbols.paste      = 'Ⓟ '
+let g:airline_symbols.spell      = 'Ⓢ '
+let g:airline_symbols.whitespace = 'Ξ'
+let g:airline_symbols.dirty      = ''
+
 " Powerline Fonts
 let g:airline_powerline_fonts = get(g:, 'airline_powerline', 0)
 
@@ -81,16 +92,6 @@ if !g:airline_powerline_fonts
     let g:airline#extensions#tabline#left_alt_sep = '|'
     let g:airline#extensions#tabline#close_symbol = '×'
 endif
-
-" Symbols: https://en.wikipedia.org/wiki/Enclosed_Alphanumerics
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-
-let g:airline_symbols.clipboard  = 'ⓒ '
-let g:airline_symbols.paste      = 'Ⓟ '
-let g:airline_symbols.spell      = 'Ⓢ '
-let g:airline_symbols.whitespace = 'Ξ'
 
 " Define extra parts
 call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
