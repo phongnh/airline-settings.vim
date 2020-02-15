@@ -183,8 +183,8 @@ let g:airline_section_error   = airline#section#create([
 let g:airline_section_warning = airline#section#create([
             \ 'syntastic-warn',
             \ 'ale_warning_count',
-            \ 'whitespace',
             \ 'coc_warning_count',
+            \ 'whitespace',
             \ ])
 
 " Disable vim-devicons integration for Airline's statusline
