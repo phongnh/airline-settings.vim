@@ -145,17 +145,20 @@ let g:airline_section_a = airline#section#create_left([
             \ 'iminsert',
             \ ])
 
-" Show only filetype
+" Move filetype into other section
 let g:airline_section_x = airline#section#create_right([
             \ 'tagbar',
             \ 'vista',
             \ 'gutentags',
-            \ 'indentation',
-            \ 'filetype',
             \ ])
 
 " Hide percentage, linenr, maxlinenr and column
-let g:airline_section_z = ''
+" Replace it with indentation and file info status
+let g:airline_section_z = airline#section#create_right([
+            \ 'indentation',
+            \ 'filesize',
+            \ 'filetype',
+            \ ])
 
 let g:airline_section_error   = airline#section#create([
             \ 'syntastic-err',
@@ -168,6 +171,24 @@ let g:airline_section_warning = airline#section#create([
             \ 'whitespace',
             \ 'coc_warning_count',
             \ ])
+
+" Disable vim-devicons integration for Airline's statusline
+let g:webdevicons_enable_airline_statusline = 0
+
+" Detect DevIcons
+let s:has_devicons = findfile('plugin/webdevicons.vim', &rtp) != ''
+" let s:has_devicons = exists('*WebDevIconsGetFileTypeSymbol') && exists('*WebDevIconsGetFileFormatSymbol')
+
+if s:has_devicons
+    function! AirlineWebDevIconsStatus() abort
+        if s:IsCompact()
+            return ''
+        endif
+        return WebDevIconsGetFileTypeSymbol() . '  ' . WebDevIconsGetFileFormatSymbol()
+    endfunction
+
+    let g:airline_section_z .= '%( %{AirlineWebDevIconsStatus()} %)'
+endif
 
 augroup AirlineSettings
     autocmd!
