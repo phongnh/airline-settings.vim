@@ -180,18 +180,24 @@ let g:airline_section_x = airline#section#create_right([
             \ 'tagbar',
             \ 'vista',
             \ 'gutentags',
-            \ 'indentation',
+            \ 'grepper',
             \ ])
 
 " Add filesize and filetype info
 let g:airline_section_y = airline#section#create_right([
+            \ 'indentation',
             \ 'filesize',
             \ 'ffenc',
             \ 'filetype',
             \ ])
 
-" Hide percentage, linenr, maxlinenr and column
-let g:airline_section_z = ''
+if !get(g:, 'airline_show_linenr', 1)
+    " Hide percentage, linenr, maxlinenr and column
+    let g:airline_section_z = ''
+    " FIXME: Hack to disable airline_section_z on Terminal
+    call airline#parts#define_text('linenr', '')
+    call airline#parts#define_text('maxlinenr', '')
+endif
 
 let g:airline_section_error   = airline#section#create([
             \ 'syntastic-err',
@@ -224,11 +230,7 @@ if s:has_devicons
     let g:airline_section_y .= '%( %{AirlineWebDevIconsStatus()} %)'
 endif
 
-" FIXME: Hack to disable airline_section_z on Terminal
-call airline#parts#define_text('linenr', '')
-call airline#parts#define_text('maxlinenr', '')
-
 augroup AirlineSettings
     autocmd!
-    autocmd VimEnter * set showtabline=1 noshowmode
+    autocmd User AirlineAfterInit setglobal showtabline=1 noshowmode
 augroup END
