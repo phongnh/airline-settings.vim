@@ -197,7 +197,7 @@ endif
 function! s:SetupSectionZ() abort
     if get(g:, 'airline_show_linenr', 1)
         let spc = g:airline_symbols.space
-        let g:airline_section_z = airline#section#create(['%3p%%' . spc, 'linenr', 'maxlinenr', spc . ':%3v'])
+        let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', spc . ':%3v'])
     else
         " Hide percentage, linenr, maxlinenr and column
         let g:airline_section_z = ''
