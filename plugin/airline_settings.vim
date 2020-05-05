@@ -3,9 +3,6 @@ if exists('g:loaded_airline_settings')
 endif
 let g:loaded_airline_settings = 1
 
-" Show File Size
-let g:airline_show_file_size = get(g:, 'airline_show_file_size', 0)
-
 " Window width
 let s:xsmall_window_width = 60
 let s:small_window_width  = 80
@@ -99,7 +96,6 @@ endif
 " Define extra parts
 call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
 call airline#parts#define_function('indentation', 'AirlineIndentationStatus')
-call airline#parts#define_function('filesize', 'AirlineFileSizeStatus')
 call airline#parts#define_function('ffenc', 'AirlineFileEncodingAndFormatStatus')
 
 function! AirlineClipboardStatus() abort
@@ -125,30 +121,6 @@ function! AirlineIndentationStatus() abort
     else
         return printf(&expandtab ? 'Spaces: %d' : 'Tab Size: %d', l:shiftwidth)
     endif
-endfunction
-
-" Copied from https://github.com/ahmedelgabri/dotfiles/blob/master/files/vim/.vim/autoload/statusline.vim
-function! s:FileSize() abort
-    let l:size = getfsize(expand('%'))
-    if l:size == 0 || l:size == -1 || l:size == -2
-        return ''
-    endif
-    if l:size < 1024
-        return l:size . ' bytes'
-    elseif l:size < 1024 * 1024
-        return printf('%.1f', l:size / 1024.0) . 'k'
-    elseif l:size < 1024 * 1024 * 1024
-        return printf('%.1f', l:size / 1024.0 / 1024.0) . 'm'
-    else
-        return printf('%.1f', l:size / 1024.0 / 1024.0 / 1024.0) . 'g'
-    endif
-endfunction
-
-function! AirlineFileSizeStatus() abort
-    if g:airline_show_file_size && s:ActiveWindow() && winwidth(0) >= s:small_window_width
-        return s:FileSize()
-    endif
-    return ''
 endfunction
 
 function! AirlineFileEncodingAndFormatStatus() abort
@@ -186,7 +158,6 @@ let g:airline_section_x = airline#section#create_right([
 " Add filesize and filetype info
 let g:airline_section_y = airline#section#create_right([
             \ 'indentation',
-            \ 'filesize',
             \ 'ffenc',
             \ 'filetype',
             \ ])
