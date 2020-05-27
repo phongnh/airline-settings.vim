@@ -136,6 +136,47 @@ function! AirlineFileEncodingAndFormatStatus() abort
     return l:encoding . l:bomb . l:format
 endfunction
 
+" Support lambdalisue/fern.vim
+function! s:ParseFernName(fern_name) abort
+    return matchlist(a:fern_name, '^fern://\(.\+\)/file://\(.\+\)\$')
+endfunction
+
+function! AirlineFernMode(...) abort
+    let data = s:ParseFernName(get(a:, 1, expand('%')))
+
+    if len(data)
+        let fern_mode = get(data, 1, '')
+        if match(fern_mode, 'drawer') > -1
+            return 'Drawer#' . matchstr(fern_mode, '\d\+')
+        endif
+    endif
+
+    return 'Fern'
+endfunction
+
+function! AirlineFernFolder(...) abort
+    if !s:ActiveWindow()
+        return ''
+    endif
+
+    let data = s:ParseFernName(get(a:, 1, expand('%')))
+
+    if len(data)
+        let fern_folder = get(data, 2, '')
+        let fern_folder = substitute(fern_folder, ';\?#.\+', '', '')
+        let fern_folder = fnamemodify(fern_folder, ':p:~:.:h')
+        return fern_folder
+    endif
+
+    return ''
+endfunction
+
+if !exists('g:airline_filetype_overrides')
+    let g:airline_filetype_overrides = {}
+endif
+
+let g:airline_filetype_overrides['fern'] = ['%{AirlineFernMode()}', '%{AirlineFernFolder()}']
+
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left([
             \ 'mode',
