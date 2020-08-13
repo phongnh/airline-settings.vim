@@ -18,6 +18,7 @@ let g:airline_ignore_extensions = [
             \ 'denite',
             \ 'eclim',
             \ 'example',
+            \ 'fern',
             \ 'hunks',
             \ 'localsearch',
             \ 'netrw',
