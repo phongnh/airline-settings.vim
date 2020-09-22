@@ -77,9 +77,73 @@ let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_symbols.dirty      = ''
 
 " Powerline Fonts
-let g:airline_powerline_fonts = get(g:, 'airline_powerline', 0)
+let g:airline_powerline_fonts  = get(g:, 'airline_powerline', 0)
+let g:airline_powerline_style  = get(g:, 'airline_powerline_style', 'default')
+let g:airline_powerline_spaces = extend({ 'left': 0, 'left_alt': 0, 'right': 0, 'right_alt':0 }, get(g:, 'airline_powerline_spaces', {}))
 
-if !g:airline_powerline_fonts
+if g:airline_powerline_fonts
+    let g:airline_left_alt_sep  = ''
+    let g:airline_right_alt_sep = ''
+
+    if g:airline_powerline_style ==? 'curvy'
+        let g:airline_left_sep      = "\ue0b4"
+        let g:airline_left_alt_sep  = "\ue0b5"
+        let g:airline_right_sep     = "\ue0b6"
+        let g:airline_right_alt_sep = "\ue0b7"
+    elseif g:airline_powerline_style ==? 'angly1'
+        let g:airline_left_sep      = "\ue0b8"
+        let g:airline_left_alt_sep  = "\ue0b9"
+        let g:airline_right_sep     = "\ue0ba"
+        let g:airline_right_alt_sep = "\ue0bb"
+    elseif g:airline_powerline_style ==? 'angly2'
+        let g:airline_left_sep      = "\ue0bc"
+        let g:airline_left_alt_sep  = "\ue0bd"
+        let g:airline_right_sep     = "\ue0be"
+        let g:airline_right_alt_sep = "\ue0bf"
+    elseif g:airline_powerline_style ==? 'angly-mixed1'
+        let g:airline_left_sep      = "\ue0b8"
+        let g:airline_left_alt_sep  = "\ue0b9"
+        let g:airline_right_sep     = "\ue0be"
+        let g:airline_right_alt_sep = "\ue0bf"
+    elseif g:airline_powerline_style ==? 'angly-mixed2'
+        let g:airline_left_sep      = "\ue0b8"
+        let g:airline_left_alt_sep  = "\ue0b9"
+        let g:airline_right_sep     = "\ue0ba"
+        let g:airline_right_alt_sep = "\ue0bb"
+    elseif g:airline_powerline_style ==? 'flames' || g:airline_powerline_style ==? 'flamey'
+        let g:airline_left_sep      = "\ue0c0"
+        let g:airline_left_alt_sep  = "\ue0c1"
+        let g:airline_right_sep     = "\ue0c2"
+        let g:airline_right_alt_sep = "\ue0c3"
+    elseif g:airline_powerline_style ==? 'pixelated-blocks1' || g:airline_powerline_style ==? 'pixey1'
+        let g:airline_left_sep  = "\ue0c4"
+        let g:airline_right_sep = "\ue0c5"
+    elseif g:airline_powerline_style ==? 'pixelated-blocks2' || g:airline_powerline_style ==? 'pixey2'
+        let g:airline_left_sep  = "\ue0c6"
+        let g:airline_right_sep = "\ue0c7"
+    elseif g:airline_powerline_style ==? 'sun'
+        let g:airline_left_sep  = "\ue0c8"
+        let g:airline_right_sep = "\ue0ca"
+    elseif g:airline_powerline_style ==? 'custom'
+        let g:airline_left_sep      = "\ue0cc"
+        let g:airline_left_alt_sep  = "\ue0cd"
+        let g:airline_right_sep     = "\ue0d0"
+        let g:airline_right_alt_sep = "\ue0d0"
+    elseif g:airline_powerline_style ==? 'lego' || g:airline_powerline_style ==? 'blocky'
+        let g:airline_left_sep  = "\ue0d1"
+        let g:airline_right_sep = "\ue0d0"
+    else
+        let g:airline_left_sep      = "\ue0b0"
+        let g:airline_left_alt_sep  = "\ue0b1"
+        let g:airline_right_sep     = "\ue0b2"
+        let g:airline_right_alt_sep = "\ue0b3"
+    endif
+
+    let g:airline_left_sep      .= repeat(' ', g:airline_powerline_spaces['left'])
+    let g:airline_left_alt_sep  .= repeat(' ', g:airline_powerline_spaces['left_alt'])
+    let g:airline_right_sep     .= repeat(' ', g:airline_powerline_spaces['right'])
+    let g:airline_right_alt_sep .= repeat(' ', g:airline_powerline_spaces['right_alt'])
+else
     let g:airline_powerline_fonts = 0
     let g:airline_left_sep        = ''
     let g:airline_left_alt_sep    = '|'
