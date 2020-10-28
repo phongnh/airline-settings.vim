@@ -211,7 +211,7 @@ function! AirlineFernMode(...) abort
     if len(data)
         let fern_mode = get(data, 1, '')
         if match(fern_mode, 'drawer') > -1
-            return 'Drawer#' . matchstr(fern_mode, '\d\+')
+            return 'Drawer'
         endif
     endif
 
