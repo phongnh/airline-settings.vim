@@ -9,6 +9,7 @@ let s:small_window_width  = 80
 
 " Disable some extensions
 let g:airline_ignore_extensions = [
+            \ 'bookmark',
             \ 'bufferline',
             \ 'capslock',
             \ 'commandt',
@@ -23,14 +24,16 @@ let g:airline_ignore_extensions = [
             \ 'localsearch',
             \ 'netrw',
             \ 'obsession',
+            \ 'omnisharp',
             \ 'po',
+            \ 'poetv',
             \ 'promptline',
             \ 'tmuxline',
+            \ 'unicode',
             \ 'unite',
             \ 'vimagit',
             \ 'vimtex',
             \ 'virtualenv',
-            \ 'vista',
             \ 'whitespace',
             \ 'windowswap',
             \ 'wordcount',
