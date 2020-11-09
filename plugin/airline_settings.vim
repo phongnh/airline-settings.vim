@@ -9,6 +9,7 @@ let s:small_window_width  = 80
 
 " Disable some extensions
 let g:airline_ignore_extensions = [
+            \ 'battery',
             \ 'bookmark',
             \ 'bufferline',
             \ 'capslock',
@@ -17,6 +18,7 @@ let g:airline_ignore_extensions = [
             \ 'ctrlspace',
             \ 'cursormode',
             \ 'denite',
+            \ 'dirvish',
             \ 'eclim',
             \ 'example',
             \ 'fern',
@@ -31,7 +33,6 @@ let g:airline_ignore_extensions = [
             \ 'tmuxline',
             \ 'unicode',
             \ 'unite',
-            \ 'vimagit',
             \ 'vimtex',
             \ 'virtualenv',
             \ 'whitespace',
@@ -260,6 +261,7 @@ let g:airline_section_x = airline#section#create_right([
             \ 'tagbar',
             \ 'vista',
             \ 'gutentags',
+            \ 'gen_tags',
             \ 'grepper',
             \ ])
 
@@ -272,13 +274,23 @@ let g:airline_section_y = airline#section#create_right([
 
 
 let g:airline_section_error   = airline#section#create([
+            \ 'ycm_error_count',
             \ 'syntastic-err',
+            \ 'neomake_error_count',
             \ 'ale_error_count',
+            \ 'lsp_error_count',
+            \ 'nvimlsp_error_count',
+            \ 'languageclient_error_count',
             \ 'coc_error_count',
             \ ])
 let g:airline_section_warning = airline#section#create([
+            \ 'ycm_warning_count',
             \ 'syntastic-warn',
+            \ 'neomake_warning_count',
             \ 'ale_warning_count',
+            \ 'lsp_warning_count',
+            \ 'nvimlsp_warning_count',
+            \ 'languageclient_warning_count',
             \ 'coc_warning_count',
             \ 'whitespace',
             \ ])
