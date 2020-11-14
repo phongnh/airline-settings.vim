@@ -113,28 +113,6 @@ if g:airline_powerline_fonts
         let g:airline_left_alt_sep  = "\ue0b9"
         let g:airline_right_sep     = "\ue0ba"
         let g:airline_right_alt_sep = "\ue0bb"
-    elseif g:airline_powerline_style ==? 'flames' || g:airline_powerline_style ==? 'flamey'
-        let g:airline_left_sep      = "\ue0c0"
-        let g:airline_left_alt_sep  = "\ue0c1"
-        let g:airline_right_sep     = "\ue0c2"
-        let g:airline_right_alt_sep = "\ue0c3"
-    elseif g:airline_powerline_style ==? 'pixelated-blocks1' || g:airline_powerline_style ==? 'pixey1'
-        let g:airline_left_sep  = "\ue0c4"
-        let g:airline_right_sep = "\ue0c5"
-    elseif g:airline_powerline_style ==? 'pixelated-blocks2' || g:airline_powerline_style ==? 'pixey2'
-        let g:airline_left_sep  = "\ue0c6"
-        let g:airline_right_sep = "\ue0c7"
-    elseif g:airline_powerline_style ==? 'sun'
-        let g:airline_left_sep  = "\ue0c8"
-        let g:airline_right_sep = "\ue0ca"
-    elseif g:airline_powerline_style ==? 'custom'
-        let g:airline_left_sep      = "\ue0cc"
-        let g:airline_left_alt_sep  = "\ue0cd"
-        let g:airline_right_sep     = "\ue0d0"
-        let g:airline_right_alt_sep = "\ue0d0"
-    elseif g:airline_powerline_style ==? 'lego' || g:airline_powerline_style ==? 'blocky'
-        let g:airline_left_sep  = "\ue0d1"
-        let g:airline_right_sep = "\ue0d0"
     else
         let g:airline_left_sep      = "\ue0b0"
         let g:airline_left_alt_sep  = "\ue0b1"
