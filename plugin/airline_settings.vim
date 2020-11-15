@@ -30,6 +30,7 @@ let g:airline_ignore_extensions = [
             \ 'po',
             \ 'poetv',
             \ 'promptline',
+            \ 'searchcount',
             \ 'tmuxline',
             \ 'unicode',
             \ 'unite',
