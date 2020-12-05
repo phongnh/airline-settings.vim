@@ -145,8 +145,12 @@ call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
 call airline#parts#define_function('indentation', 'AirlineIndentationStatus')
 call airline#parts#define_function('ffenc', 'AirlineFileEncodingAndFormatStatus')
 
+function! s:IsClipboardEnabled() abort
+    return match(&clipboard, 'unnamed') > -1
+endfunction
+
 function! AirlineClipboardStatus() abort
-    return match(&clipboard, 'unnamed') > -1 ? g:airline_symbols.clipboard : ''
+    return s:IsClipboardEnabled() ? g:airline_symbols.clipboard : ''
 endfunction
 
 function! s:ActiveWindow() abort
@@ -154,7 +158,7 @@ function! s:ActiveWindow() abort
 endfunction
 
 function! s:IsCompact() abort
-    return &spell || &paste || strlen(AirlineClipboardStatus()) || winwidth(0) <= s:xsmall_window_width
+    return &spell || &paste || s:IsClipboardEnabled() || winwidth(0) <= s:xsmall_window_width
 endfunction
 
 function! AirlineIndentationStatus() abort
