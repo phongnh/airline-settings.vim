@@ -86,45 +86,49 @@ let g:airline_powerline_style  = get(g:, 'airline_powerline_style', 'default')
 let g:airline_powerline_spaces = extend({ 'left': 0, 'left_alt': 0, 'right': 0, 'right_alt':0 }, get(g:, 'airline_powerline_spaces', {}))
 
 if g:airline_powerline_fonts
-    let g:airline_left_alt_sep  = ''
-    let g:airline_right_alt_sep = ''
+    let s:powerline_separator_styles = {
+                \ 'default': { 'left': "\ue0b0", 'right': "\ue0b2" },
+                \ 'curvy':   { 'left': "\ue0b4", 'right': "\ue0b6" },
+                \ 'angly1':  { 'left': "\ue0b8", 'right': "\ue0ba" },
+                \ 'angly2':  { 'left': "\ue0bc", 'right': "\ue0be" },
+                \ 'angly3':  { 'left': "\ue0b8", 'right': "\ue0be" },
+                \ 'angly4':  { 'left': "\ue0bc", 'right': "\ue0ba" },
+                \ }
 
-    if g:airline_powerline_style ==? 'curvy'
-        let g:airline_left_sep      = "\ue0b4"
-        let g:airline_left_alt_sep  = "\ue0b5"
-        let g:airline_right_sep     = "\ue0b6"
-        let g:airline_right_alt_sep = "\ue0b7"
-    elseif g:airline_powerline_style ==? 'angly1'
-        let g:airline_left_sep      = "\ue0b8"
-        let g:airline_left_alt_sep  = "\ue0b9"
-        let g:airline_right_sep     = "\ue0ba"
-        let g:airline_right_alt_sep = "\ue0bb"
-    elseif g:airline_powerline_style ==? 'angly2'
-        let g:airline_left_sep      = "\ue0bc"
-        let g:airline_left_alt_sep  = "\ue0bd"
-        let g:airline_right_sep     = "\ue0be"
-        let g:airline_right_alt_sep = "\ue0bf"
-    elseif g:airline_powerline_style ==? 'angly-mixed1'
-        let g:airline_left_sep      = "\ue0b8"
-        let g:airline_left_alt_sep  = "\ue0b9"
-        let g:airline_right_sep     = "\ue0be"
-        let g:airline_right_alt_sep = "\ue0bf"
-    elseif g:airline_powerline_style ==? 'angly-mixed2'
-        let g:airline_left_sep      = "\ue0b8"
-        let g:airline_left_alt_sep  = "\ue0b9"
-        let g:airline_right_sep     = "\ue0ba"
-        let g:airline_right_alt_sep = "\ue0bb"
-    else
-        let g:airline_left_sep      = "\ue0b0"
-        let g:airline_left_alt_sep  = "\ue0b1"
-        let g:airline_right_sep     = "\ue0b2"
-        let g:airline_right_alt_sep = "\ue0b3"
-    endif
+    let s:powerline_subseparator_styles = {
+                \ 'default': { 'left': "\ue0b1", 'right': "\ue0b3" },
+                \ 'curvy':   { 'left': "\ue0b5", 'right': "\ue0b7" },
+                \ 'angly1':  { 'left': "\ue0b9", 'right': "\ue0bb" },
+                \ 'angly2':  { 'left': "\ue0bd", 'right': "\ue0bf" },
+                \ 'angly3':  { 'left': "\ue0b9", 'right': "\ue0bf" },
+                \ 'angly4':  { 'left': "\ue0bd", 'right': "\ue0bb" },
+                \ }
 
-    let g:airline_left_sep      .= repeat(' ', g:airline_powerline_spaces['left'])
-    let g:airline_left_alt_sep  .= repeat(' ', g:airline_powerline_spaces['left_alt'])
-    let g:airline_right_sep     .= repeat(' ', g:airline_powerline_spaces['right'])
-    let g:airline_right_alt_sep .= repeat(' ', g:airline_powerline_spaces['right_alt'])
+    function! s:Rand() abort
+        return str2nr(matchstr(reltimestr(reltime()), '\v\.@<=\d+')[1:])
+    endfunction
+
+    function! s:SetSeparator(style, spaces) abort
+        let l:style = a:style
+        if l:style ==? 'random'
+            let l:style = keys(s:powerline_separator_styles)[s:Rand() % len(s:powerline_separator_styles)]
+        endif
+
+        let l:separator    = copy(get(s:powerline_separator_styles, l:style, s:powerline_separator_styles['default']))
+        let l:subseparator = copy(get(s:powerline_subseparator_styles, l:style, s:powerline_subseparator_styles['default']))
+
+        let l:separator['left']     .= repeat(' ', a:spaces['left'])
+        let l:separator['right']    .= repeat(' ', a:spaces['right'])
+        let l:subseparator['left']  .= repeat(' ', a:spaces['left_alt'])
+        let l:subseparator['right'] .= repeat(' ', a:spaces['right_alt'])
+
+        let g:airline_left_sep      = l:separator['left']
+        let g:airline_right_sep     = l:separator['right']
+        let g:airline_left_alt_sep  = l:subseparator['left']
+        let g:airline_right_alt_sep = l:subseparator['right']
+    endfunction
+
+    call s:SetSeparator(g:airline_powerline_style, g:airline_powerline_spaces)
 else
     let g:airline_powerline_fonts = 0
     let g:airline_left_sep        = ''
