@@ -328,6 +328,10 @@ if s:has_devicons
         return ''
     endfunction
 
+    " Show Vim Logo in Tabline
+    let g:airline#extensions#tabline#tabs_label    = "\ue7c5"
+    let g:airline#extensions#tabline#buffers_label = "\ue7c5"
+
     " Append WebDevIcons
     let g:airline_section_y .= '%( %{AirlineWebDevIconsStatus()} %)'
 endif
