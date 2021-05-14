@@ -46,6 +46,8 @@ for ext in g:airline_ignore_extensions
     let g:airline#extensions#{ext}#enabled = 0
 endfor
 
+let g:airline#extensions#branch#enabled = get(g:, 'airline_show_git_branch', 1)
+
 " Disable truncation
 let g:airline#extensions#default#section_truncate_width = {}
 
