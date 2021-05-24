@@ -23,6 +23,7 @@ let g:airline_ignore_extensions = [
             \ 'example',
             \ 'fern',
             \ 'hunks',
+            \ 'keymap',
             \ 'localsearch',
             \ 'netrw',
             \ 'obsession',
@@ -30,16 +31,20 @@ let g:airline_ignore_extensions = [
             \ 'po',
             \ 'poetv',
             \ 'promptline',
+            \ 'scrollbar',
             \ 'searchcount',
             \ 'tmuxline',
             \ 'unicode',
             \ 'unite',
+            \ 'vimagit',
+            \ 'vimcmake',
             \ 'vimtex',
             \ 'virtualenv',
             \ 'whitespace',
             \ 'windowswap',
             \ 'wordcount',
             \ 'xkblayout',
+            \ 'zoomwintab',
             \ ]
 
 for ext in g:airline_ignore_extensions
@@ -353,9 +358,6 @@ function! s:SetupSectionZ() abort
     else
         " Hide percentage, linenr, maxlinenr and column
         let g:airline_section_z = ''
-        " FIXME: Hack to disable airline_section_z on Terminal
-        call airline#parts#define_text('linenr', '')
-        call airline#parts#define_text('maxlinenr', '')
     endif
 endfunction
 
