@@ -90,6 +90,9 @@ let g:airline_symbols.dirty      = ''
 " vim-devicons or nerdfont.vim support
 let g:airline_show_devicons = get(g:, 'airline_show_devicons', 1)
 
+" Show Vim Logo in Tabline
+let g:airline_show_vim_logo = get(g:, 'airline_show_vim_logo', 1)
+
 " Powerline Fonts
 let g:airline_powerline_fonts  = get(g:, 'airline_powerline', 0)
 let g:airline_powerline_style  = get(g:, 'airline_powerline_style', 'default')
@@ -362,12 +365,14 @@ elseif g:airline_show_devicons && s:has_devicons
 endif
 
 if s:airline_show_devicons
+    " Append DevIcons
+    let g:airline_section_y .= '%( %{AirlineDevIconsStatus()} %)'
+endif
+
+if g:airline_show_vim_logo && s:airline_show_devicons
     " Show Vim Logo in Tabline
     let g:airline#extensions#tabline#tabs_label    = "\ue7c5"
     let g:airline#extensions#tabline#buffers_label = "\ue7c5"
-
-    " Append DevIcons
-    let g:airline_section_y .= '%( %{AirlineDevIconsStatus()} %)'
 endif
 
 function! s:SetupSectionZ() abort
