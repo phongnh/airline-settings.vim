@@ -371,8 +371,8 @@ endif
 
 if g:airline_show_vim_logo && s:airline_show_devicons
     " Show Vim Logo in Tabline
-    let g:airline#extensions#tabline#tabs_label    = "\ue7c5"
-    let g:airline#extensions#tabline#buffers_label = "\ue7c5"
+    let g:airline#extensions#tabline#tabs_label    = "\ue7c5" . ' '
+    let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
 endif
 
 function! s:SetupSectionZ() abort
