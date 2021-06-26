@@ -87,6 +87,9 @@ let g:airline_symbols.spell      = '🅢 '
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_symbols.dirty      = ''
 
+" vim-devicons or nerdfont.vim support
+let g:airline_show_devicons = get(g:, 'airline_show_devicons', 1)
+
 " Powerline Fonts
 let g:airline_powerline_fonts  = get(g:, 'airline_powerline', 0)
 let g:airline_powerline_style  = get(g:, 'airline_powerline_style', 'default')
@@ -331,24 +334,40 @@ let g:airline_section_warning = airline#section#create([
 " Disable vim-devicons integration for Airline's statusline
 let g:webdevicons_enable_airline_statusline = 0
 
-" Detect DevIcons
+" Detect vim-devicons or nerdfont.vim
 let s:has_devicons = findfile('plugin/webdevicons.vim', &rtp) != ''
 " let s:has_devicons = exists('*WebDevIconsGetFileTypeSymbol') && exists('*WebDevIconsGetFileFormatSymbol')
+let s:has_nerdfont = findfile('autoload/nerdfont.vim', &rtp) != ''
 
-if s:has_devicons
-    function! AirlineWebDevIconsStatus() abort
+let s:airline_show_devicons = 0
+
+if g:airline_show_devicons && s:has_nerdfont
+    let s:airline_show_devicons = 1
+
+    function! AirlineDevIconsStatus() abort
+        if s:ActiveWindow() && !s:IsCompact()
+            return nerdfont#find() . '  ' .  nerdfont#fileformat#find()
+        endif
+        return ''
+    endfunction
+elseif g:airline_show_devicons && s:has_devicons
+    let s:airline_show_devicons = 1
+
+    function! AirlineDevIconsStatus() abort
         if s:ActiveWindow() && !s:IsCompact()
             return WebDevIconsGetFileTypeSymbol() . '  ' . WebDevIconsGetFileFormatSymbol()
         endif
         return ''
     endfunction
+endif
 
+if s:airline_show_devicons
     " Show Vim Logo in Tabline
     let g:airline#extensions#tabline#tabs_label    = "\ue7c5"
     let g:airline#extensions#tabline#buffers_label = "\ue7c5"
 
-    " Append WebDevIcons
-    let g:airline_section_y .= '%( %{AirlineWebDevIconsStatus()} %)'
+    " Append DevIcons
+    let g:airline_section_y .= '%( %{AirlineDevIconsStatus()} %)'
 endif
 
 function! s:SetupSectionZ() abort
