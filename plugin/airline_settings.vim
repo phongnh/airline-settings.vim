@@ -283,6 +283,7 @@ if !exists('g:airline_filetype_overrides')
 endif
 
 let g:airline_filetype_overrides['fern'] = ['%{AirlineFernMode()}', '%{AirlineFernFolder()}']
+let g:airline_filetype_overrides['NvimTree'] = ['NvimTree', '']
 
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left([
