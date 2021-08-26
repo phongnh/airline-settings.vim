@@ -63,13 +63,35 @@ let g:airline_detect_iminsert = 1
 let g:airline#extensions#tabline#enabled         = 1
 let g:airline#extensions#tabline#show_splits     = 0
 let g:airline#extensions#tabline#show_tab_count  = 0
-let g:airline#extensions#tabline#tab_nr_type     = 2
+let g:airline#extensions#tabline#tab_nr_type     = 1
 let g:airline#extensions#tabline#tabnr_formatter = 'custom_tabnr'
 let g:airline#extensions#tabline#tabs_label      = 'Tabs'
 let g:airline#extensions#tabline#buffers_label   = 'Buffers'
 let g:airline#extensions#tabline#buffer_nr_show  = 1
 let g:airline#extensions#tabline#fnamemod        = ':t'
 let g:airline#extensions#tabline#fnametruncate   = 30
+
+function! OverwriteDefaultFormat() abort
+    " Copied from vim-airline
+    " Show buffer nr in Buffers mode
+    function! airline#extensions#tabline#formatters#default#wrap_name(bufnr, buffer_name) abort
+        let buf_nr_format = get(g:, 'airline#extensions#tabline#buffer_nr_format', '%s: ')
+        let buf_nr_show = tabpagenr('$') == 1
+
+        let _ = buf_nr_show ? printf(buf_nr_format, a:bufnr) : ''
+        let _ .= substitute(a:buffer_name, '\\', '/', 'g')
+
+        if getbufvar(a:bufnr, '&modified') == 1
+            let _ .= g:airline_symbols.modified
+        endif
+        return _
+    endfunction
+endfunction
+
+augroup airline-settings
+    autocmd!
+    autocmd VimEnter * call OverwriteDefaultFormat()
+augroup END
 
 " Branch - show only 30 characters of branch name
 let g:airline#extensions#branch#displayed_head_limit = 30

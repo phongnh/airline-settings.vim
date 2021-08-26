@@ -3,5 +3,5 @@
 scriptencoding utf-8
 
 function! airline#extensions#tabline#formatters#custom_tabnr#format(tab_nr_type, nr)
-  return printf('%s[%s]', g:airline_symbols.space, a:nr)
+  return printf('%s%s:', g:airline_symbols.space, a:nr)
 endfunction
