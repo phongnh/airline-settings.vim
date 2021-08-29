@@ -419,6 +419,18 @@ if g:airline_show_vim_logo && s:airline_show_devicons
     let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
 endif
 
+" Overwrite for Terminal
+call airline#parts#define('linenr', {
+            \ 'raw': '%l',
+            \ 'accent': 'bold',
+            \ })
+
+" Overwrite for Terminal
+call airline#parts#define('maxlinenr', {
+            \ 'raw': '/%L',
+            \ 'accent': 'bold',
+            \ })
+
 function! s:SetupSectionZ() abort
     if get(g:, 'airline_show_linenr', 0)
         call airline#parts#define('lineinfo', {
