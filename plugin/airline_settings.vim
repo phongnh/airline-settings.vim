@@ -131,12 +131,6 @@ if g:airline_powerline_fonts
                 \ 'slant-left':  { 'left': "\ue0b8", 'right': "\ue0be" },
                 \ 'slant-right': { 'left': "\ue0bc", 'right': "\ue0ba" },
                 \ 'slant-curvy': { 'left': "\ue0b8", 'right': "\ue0b6" },
-                \ 'angly1':      { 'left': "\ue0b8", 'right': "\ue0be" },
-                \ 'angly2':      { 'left': "\ue0bc", 'right': "\ue0ba" },
-                \ 'angly3':      { 'left': "\ue0b8", 'right': "\ue0ba" },
-                \ 'angly4':      { 'left': "\ue0bc", 'right': "\ue0be" },
-                \ 'angly-left':  { 'left': "\ue0b8", 'right': "\ue0be" },
-                \ 'angly-right': { 'left': "\ue0bc", 'right': "\ue0ba" },
                 \ }
 
     let s:powerline_tabline_separator_styles = extend(deepcopy(s:powerline_separator_styles), {
@@ -144,10 +138,6 @@ if g:airline_powerline_fonts
                 \ 'slant2': copy(s:powerline_separator_styles['slant1']),
                 \ 'slant3': copy(s:powerline_separator_styles['slant4']),
                 \ 'slant4': copy(s:powerline_separator_styles['slant3']),
-                \ 'angly1': copy(s:powerline_separator_styles['angly2']),
-                \ 'angly2': copy(s:powerline_separator_styles['angly1']),
-                \ 'angly3': copy(s:powerline_separator_styles['angly4']),
-                \ 'angly4': copy(s:powerline_separator_styles['angly3']),
                 \ })
 
     let s:powerline_subseparator_styles = {
@@ -160,12 +150,6 @@ if g:airline_powerline_fonts
                 \ 'slant-left':  { 'left': "\ue0b9", 'right': "\ue0b9" },
                 \ 'slant-right': { 'left': "\ue0bb", 'right': "\ue0bb" },
                 \ 'slant-curvy': { 'left': "\ue0b9", 'right': "\ue0b7" },
-                \ 'angly1':      { 'left': "\ue0b9", 'right': "\ue0b9" },
-                \ 'angly2':      { 'left': "\ue0bb", 'right': "\ue0bb" },
-                \ 'angly3':      { 'left': "\ue0b9", 'right': "\ue0bb" },
-                \ 'angly4':      { 'left': "\ue0bd", 'right': "\ue0b9" },
-                \ 'angly-left':  { 'left': "\ue0b9", 'right': "\ue0b9" },
-                \ 'angly-right': { 'left': "\ue0bb", 'right': "\ue0bb" },
                 \ }
 
     let s:powerline_tabline_subseparator_styles = extend(deepcopy(s:powerline_subseparator_styles), {
@@ -173,10 +157,6 @@ if g:airline_powerline_fonts
                 \ 'slant2': copy(s:powerline_subseparator_styles['slant1']),
                 \ 'slant3': copy(s:powerline_subseparator_styles['slant4']),
                 \ 'slant4': copy(s:powerline_subseparator_styles['slant3']),
-                \ 'angly1': copy(s:powerline_subseparator_styles['angly2']),
-                \ 'angly2': copy(s:powerline_subseparator_styles['angly1']),
-                \ 'angly3': copy(s:powerline_subseparator_styles['angly4']),
-                \ 'angly4': copy(s:powerline_subseparator_styles['angly3']),
                 \ })
 
     function! s:Rand() abort
