@@ -121,42 +121,66 @@ let g:airline_powerline_style  = get(g:, 'airline_powerline_style', 'default')
 let g:airline_powerline_spaces = extend({ 'left': 0, 'left_alt': 0, 'right': 0, 'right_alt':0 }, get(g:, 'airline_powerline_spaces', {}))
 
 if g:airline_powerline_fonts
-    let s:powerline_separator_styles = {
-                \ 'default':     { 'left': "\ue0b0", 'right': "\ue0b2" },
-                \ 'curvy':       { 'left': "\ue0b4", 'right': "\ue0b6" },
-                \ 'slant1':      { 'left': "\ue0b8", 'right': "\ue0be" },
-                \ 'slant2':      { 'left': "\ue0bc", 'right': "\ue0ba" },
-                \ 'slant3':      { 'left': "\ue0b8", 'right': "\ue0ba" },
-                \ 'slant4':      { 'left': "\ue0bc", 'right': "\ue0be" },
-                \ 'slant-left':  { 'left': "\ue0b8", 'right': "\ue0be" },
-                \ 'slant-right': { 'left': "\ue0bc", 'right': "\ue0ba" },
-                \ 'slant-curvy': { 'left': "\ue0b8", 'right': "\ue0b6" },
+    let s:powerline_default_separator_styles = {
+                \ '><': { 'left': "\ue0b0", 'right': "\ue0b2" },
+                \ '>(': { 'left': "\ue0b0", 'right': "\ue0b6" },
+                \ '>\': { 'left': "\ue0b0", 'right': "\ue0be" },
+                \ '>/': { 'left': "\ue0b0", 'right': "\ue0ba" },
+                \ ')(': { 'left': "\ue0b4", 'right': "\ue0b6" },
+                \ ')<': { 'left': "\ue0b4", 'right': "\ue0b2" },
+                \ ')\': { 'left': "\ue0b4", 'right': "\ue0be" },
+                \ ')/': { 'left': "\ue0b4", 'right': "\ue0ba" },
+                \ '\\': { 'left': "\ue0b8", 'right': "\ue0be" },
+                \ '\/': { 'left': "\ue0b8", 'right': "\ue0ba" },
+                \ '\<': { 'left': "\ue0b8", 'right': "\ue0b2" },
+                \ '\(': { 'left': "\ue0b8", 'right': "\ue0b6" },
+                \ '//': { 'left': "\ue0bc", 'right': "\ue0ba" },
+                \ '/\': { 'left': "\ue0bc", 'right': "\ue0be" },
+                \ '/<': { 'left': "\ue0bc", 'right': "\ue0b2" },
+                \ '/(': { 'left': "\ue0bc", 'right': "\ue0b6" },
+                \ '||': { 'left': '', 'right': '' },
                 \ }
 
-    let s:powerline_tabline_separator_styles = extend(deepcopy(s:powerline_separator_styles), {
-                \ 'slant1': copy(s:powerline_separator_styles['slant2']),
-                \ 'slant2': copy(s:powerline_separator_styles['slant1']),
-                \ 'slant3': copy(s:powerline_separator_styles['slant4']),
-                \ 'slant4': copy(s:powerline_separator_styles['slant3']),
+    let s:powerline_default_subseparator_styles = {
+                \ '><': { 'left': "\ue0b1", 'right': "\ue0b3" },
+                \ '>(': { 'left': "\ue0b1", 'right': "\ue0b7" },
+                \ '>\': { 'left': "\ue0b1", 'right': "\ue0b9" },
+                \ '>/': { 'left': "\ue0b1", 'right': "\ue0bb" },
+                \ ')(': { 'left': "\ue0b5", 'right': "\ue0b7" },
+                \ ')>': { 'left': "\ue0b5", 'right': "\ue0b1" },
+                \ ')\': { 'left': "\ue0b5", 'right': "\ue0b9" },
+                \ ')/': { 'left': "\ue0b5", 'right': "\ue0bb" },
+                \ '\\': { 'left': "\ue0b9", 'right': "\ue0b9" },
+                \ '\/': { 'left': "\ue0b9", 'right': "\ue0bb" },
+                \ '\<': { 'left': "\ue0b9", 'right': "\ue0b3" },
+                \ '\(': { 'left': "\ue0b9", 'right': "\ue0b7" },
+                \ '//': { 'left': "\ue0bb", 'right': "\ue0bb" },
+                \ '/\': { 'left': "\ue0bd", 'right': "\ue0b9" },
+                \ '/<': { 'left': "\ue0bb", 'right': "\ue0b3" },
+                \ '/(': { 'left': "\ue0bb", 'right': "\ue0b7" },
+                \ '||': { 'left': '|', 'right': '|' },
+                \ }
+
+    let s:powerline_separator_styles = extend(deepcopy(s:powerline_default_separator_styles), {
+                \ 'default': copy(s:powerline_default_separator_styles['><']),
+                \ 'angle':   copy(s:powerline_default_separator_styles['><']),
+                \ 'curvy':   copy(s:powerline_default_separator_styles[')(']),
+                \ 'slant':   copy(s:powerline_default_separator_styles['//']),
                 \ })
 
-    let s:powerline_subseparator_styles = {
-                \ 'default':     { 'left': "\ue0b1", 'right': "\ue0b3" },
-                \ 'curvy':       { 'left': "\ue0b5", 'right': "\ue0b7" },
-                \ 'slant1':      { 'left': "\ue0b9", 'right': "\ue0b9" },
-                \ 'slant2':      { 'left': "\ue0bb", 'right': "\ue0bb" },
-                \ 'slant3':      { 'left': "\ue0b9", 'right': "\ue0bb" },
-                \ 'slant4':      { 'left': "\ue0bd", 'right': "\ue0b9" },
-                \ 'slant-left':  { 'left': "\ue0b9", 'right': "\ue0b9" },
-                \ 'slant-right': { 'left': "\ue0bb", 'right': "\ue0bb" },
-                \ 'slant-curvy': { 'left': "\ue0b9", 'right': "\ue0b7" },
-                \ }
+    let s:powerline_subseparator_styles = extend(deepcopy(s:powerline_default_subseparator_styles), {
+                \ 'default': copy(s:powerline_default_subseparator_styles['><']),
+                \ 'angle':   copy(s:powerline_default_subseparator_styles['><']),
+                \ 'curvy':   copy(s:powerline_default_subseparator_styles[')(']),
+                \ 'slant':   copy(s:powerline_default_subseparator_styles['//']),
+                \ })
+
+    let s:powerline_tabline_separator_styles = extend(deepcopy(s:powerline_separator_styles), {
+                \ '||': { 'left': ' ', 'right': '' },
+                \ })
 
     let s:powerline_tabline_subseparator_styles = extend(deepcopy(s:powerline_subseparator_styles), {
-                \ 'slant1': copy(s:powerline_subseparator_styles['slant2']),
-                \ 'slant2': copy(s:powerline_subseparator_styles['slant1']),
-                \ 'slant3': copy(s:powerline_subseparator_styles['slant4']),
-                \ 'slant4': copy(s:powerline_subseparator_styles['slant3']),
+                \ '||': { 'left': '|', 'right': '|' },
                 \ })
 
     function! s:Rand() abort
@@ -175,14 +199,42 @@ if g:airline_powerline_fonts
         return [l:separator, l:subseparator]
     endfunction
 
-    function! s:SetSeparator(style, spaces) abort
-        let l:style = a:style
-        if l:style ==? 'random'
-            let l:style = keys(s:powerline_separator_styles)[s:Rand() % len(s:powerline_separator_styles)]
+    function! s:GetStyle(style) abort
+        if type(a:style) == type([])
+            let l:statusline_style = get(a:style, 0, 'default')
+            let l:tabline_style = get(a:style, 1, 'default')
+        elseif type(a:style) == type('')
+            let l:statusline_style = a:style
+            let l:tabline_style = a:style
+        else
+            let l:statusline_style = 'default'
+            let l:tabline_style = 'default'
         endif
 
+        if empty(l:statusline_style)
+            let l:statusline_style = 'default'
+        endif
+
+        if empty(l:tabline_style)
+            let l:tabline_style = 'default'
+        endif
+
+        if l:statusline_style ==? 'random'
+            let l:statusline_style = keys(s:powerline_separator_styles)[s:Rand() % len(s:powerline_separator_styles)]
+        endif
+
+        if l:tabline_style ==? 'random'
+            let l:tabline_style = keys(s:powerline_separator_styles)[s:Rand() % len(s:powerline_separator_styles)]
+        endif
+
+        return [l:statusline_style, l:tabline_style]
+    endfunction
+
+    function! s:SetSeparator(style, spaces) abort
+        let [l:statusline_style, l:tabline_style] = s:GetStyle(a:style)
+
         let [l:separator, l:subseparator] = s:GetSeparator(
-                    \ l:style,
+                    \ l:statusline_style,
                     \ s:powerline_separator_styles,
                     \ s:powerline_subseparator_styles,
                     \ a:spaces)
@@ -193,7 +245,7 @@ if g:airline_powerline_fonts
         let g:airline_right_alt_sep = l:subseparator['right']
 
         let [l:tabline_separator, l:tabline_subseparator] = s:GetSeparator(
-                    \ l:style,
+                    \ l:tabline_style,
                     \ s:powerline_tabline_separator_styles,
                     \ s:powerline_tabline_subseparator_styles,
                     \ a:spaces)
