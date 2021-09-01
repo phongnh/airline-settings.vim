@@ -361,6 +361,7 @@ endif
 let g:airline_filetype_overrides['fern'] = ['%{AirlineFernMode()}', '%{AirlineFernFolder()}']
 let g:airline_filetype_overrides['NvimTree'] = ['NvimTree', '']
 let g:airline_filetype_overrides['dirvish'] = ['Dirvish', '%{expand("%:p:h")}']
+let g:airline_filetype_overrides['CHADTree'] = ['CHADTree', '']
 
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left([
