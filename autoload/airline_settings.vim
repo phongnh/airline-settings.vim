@@ -1,5 +1,5 @@
 function! s:InitPowerlineStyles() abort
-    let s:powerline_separator_styles = {
+    let s:statusline_separator_styles = {
                 \ '><': { 'left': "\ue0b0", 'right': "\ue0b2" },
                 \ '>(': { 'left': "\ue0b0", 'right': "\ue0b6" },
                 \ '>\': { 'left': "\ue0b0", 'right': "\ue0be" },
@@ -19,7 +19,7 @@ function! s:InitPowerlineStyles() abort
                 \ '||': { 'left': '', 'right': '' },
                 \ }
 
-    let s:powerline_subseparator_styles = {
+    let s:statusline_subseparator_styles = {
                 \ '><': { 'left': "\ue0b1", 'right': "\ue0b3" },
                 \ '>(': { 'left': "\ue0b1", 'right': "\ue0b7" },
                 \ '>\': { 'left': "\ue0b1", 'right': "\ue0b9" },
@@ -39,25 +39,25 @@ function! s:InitPowerlineStyles() abort
                 \ '||': { 'left': '|', 'right': '|' },
                 \ }
 
-    let s:powerline_separator_styles = extend(s:powerline_separator_styles, {
-                \ 'default': copy(s:powerline_separator_styles['><']),
-                \ 'angle':   copy(s:powerline_separator_styles['><']),
-                \ 'curvy':   copy(s:powerline_separator_styles[')(']),
-                \ 'slant':   copy(s:powerline_separator_styles['//']),
+    call extend(s:statusline_separator_styles, {
+                \ 'default': copy(s:statusline_separator_styles['><']),
+                \ 'angle':   copy(s:statusline_separator_styles['><']),
+                \ 'curvy':   copy(s:statusline_separator_styles[')(']),
+                \ 'slant':   copy(s:statusline_separator_styles['//']),
                 \ })
 
-    let s:powerline_subseparator_styles = extend(s:powerline_subseparator_styles, {
-                \ 'default': copy(s:powerline_subseparator_styles['><']),
-                \ 'angle':   copy(s:powerline_subseparator_styles['><']),
-                \ 'curvy':   copy(s:powerline_subseparator_styles[')(']),
-                \ 'slant':   copy(s:powerline_subseparator_styles['//']),
+    call extend(s:statusline_subseparator_styles, {
+                \ 'default': copy(s:statusline_subseparator_styles['><']),
+                \ 'angle':   copy(s:statusline_subseparator_styles['><']),
+                \ 'curvy':   copy(s:statusline_subseparator_styles[')(']),
+                \ 'slant':   copy(s:statusline_subseparator_styles['//']),
                 \ })
 
-    let s:powerline_tabline_separator_styles = extend(deepcopy(s:powerline_separator_styles), {
+    let s:tabline_separator_styles = extend(deepcopy(s:statusline_separator_styles), {
                 \ '||': { 'left': ' ', 'right': '' },
                 \ })
 
-    let s:powerline_tabline_subseparator_styles = extend(deepcopy(s:powerline_subseparator_styles), {
+    let s:tabline_subseparator_styles = extend(deepcopy(s:statusline_subseparator_styles), {
                 \ '||': { 'left': '|', 'right': '|' },
                 \ })
 endfunction
@@ -88,27 +88,27 @@ function! s:GetStyle(style) abort
     endif
 
     if l:statusline_style ==? 'random'
-        let l:statusline_style = keys(s:powerline_separator_styles)[s:Rand() % len(s:powerline_separator_styles)]
+        let l:statusline_style = keys(s:statusline_separator_styles)[s:Rand() % len(s:statusline_separator_styles)]
     endif
 
     if l:tabline_style ==? 'random'
-        let l:tabline_style = keys(s:powerline_separator_styles)[s:Rand() % len(s:powerline_separator_styles)]
+        let l:tabline_style = keys(s:statusline_separator_styles)[s:Rand() % len(s:statusline_separator_styles)]
     endif
 
     return [l:statusline_style, l:tabline_style]
 endfunction
 
 function! s:SetSeparator(statusline_style, tabline_style) abort
-    let l:statusline_separator    = get(s:powerline_separator_styles, a:statusline_style, s:powerline_separator_styles['default'])
-    let l:statusline_subseparator = get(s:powerline_subseparator_styles, a:statusline_style, s:powerline_subseparator_styles['default'])
+    let l:statusline_separator    = get(s:statusline_separator_styles, a:statusline_style, s:statusline_separator_styles['default'])
+    let l:statusline_subseparator = get(s:statusline_subseparator_styles, a:statusline_style, s:statusline_subseparator_styles['default'])
 
     let g:airline_left_sep      = l:statusline_separator['left']
     let g:airline_right_sep     = l:statusline_separator['right']
     let g:airline_left_alt_sep  = l:statusline_subseparator['left']
     let g:airline_right_alt_sep = l:statusline_subseparator['right']
 
-    let l:tabline_separator    = get(s:powerline_tabline_separator_styles, a:tabline_style, s:powerline_tabline_separator_styles['default'])
-    let l:tabline_subseparator = get(s:powerline_tabline_subseparator_styles, a:tabline_style, s:powerline_tabline_subseparator_styles['default'])
+    let l:tabline_separator    = get(s:tabline_separator_styles, a:tabline_style, s:tabline_separator_styles['default'])
+    let l:tabline_subseparator = get(s:tabline_subseparator_styles, a:tabline_style, s:tabline_subseparator_styles['default'])
 
     let g:airline#extensions#tabline#left_sep      = l:tabline_separator['left']
     let g:airline#extensions#tabline#right_sep     = l:tabline_separator['right']
