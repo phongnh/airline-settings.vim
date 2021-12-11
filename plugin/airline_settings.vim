@@ -7,6 +7,11 @@ let g:loaded_airline_settings = 1
 let s:xsmall_window_width = 60
 let s:small_window_width  = 80
 
+# Extensions
+let g:airline_extensions = [
+            \ 'gundo',
+            \ ]
+
 " Disable some extensions
 let g:airline_ignore_extensions = [
             \ 'battery',
@@ -53,7 +58,6 @@ let g:airline_ignore_extensions = [
 for ext in g:airline_ignore_extensions
     let g:airline#extensions#{ext}#enabled = 0
 endfor
-let g:airline#extensions#gundo#enabled = 1
 
 let g:airline#extensions#branch#enabled = get(g:, 'airline_show_git_branch', 1)
 
