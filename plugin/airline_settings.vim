@@ -121,8 +121,6 @@ let g:airline_powerline_fonts  = get(g:, 'airline_powerline_fonts', 0)
 if g:airline_powerline_fonts
     call airline_settings#SetPowerlineSeparators(get(g:, 'airline_powerline_style', 'default'))
 else
-    let g:airline_powerline_fonts = 0
-
     let g:airline_left_sep        = ''
     let g:airline_right_sep       = ''
     let g:airline_left_alt_sep    = '|'
@@ -283,31 +281,30 @@ let g:airline_section_warning = airline#section#create([
 " Disable vim-devicons integration for Airline's statusline
 let g:webdevicons_enable_airline_statusline = 0
 
-" Detect vim-devicons or nerdfont.vim
-let s:has_devicons = findfile('plugin/webdevicons.vim', &rtp) != ''
-" let s:has_devicons = exists('*WebDevIconsGetFileTypeSymbol') && exists('*WebDevIconsGetFileFormatSymbol')
-let s:has_nerdfont = findfile('autoload/nerdfont.vim', &rtp) != ''
-
 let s:airline_show_devicons = 0
 
-if g:airline_show_devicons && s:has_nerdfont
-    let s:airline_show_devicons = 1
+if g:airline_show_devicons
+    " Detect vim-devicons or nerdfont.vim
+    " let s:has_devicons = exists('*WebDevIconsGetFileTypeSymbol') && exists('*WebDevIconsGetFileFormatSymbol')
+    if findfile('autoload/nerdfont.vim', &rtp) != ''
+        let s:airline_show_devicons = 1
 
-    function! AirlineDevIconsStatus() abort
-        if s:ActiveWindow() && !s:IsCompact()
-            return nerdfont#find() . '  ' .  nerdfont#fileformat#find()
-        endif
-        return ''
-    endfunction
-elseif g:airline_show_devicons && s:has_devicons
-    let s:airline_show_devicons = 1
+        function! AirlineDevIconsStatus() abort
+            if s:ActiveWindow() && !s:IsCompact()
+                return nerdfont#find() . '  ' .  nerdfont#fileformat#find()
+            endif
+            return ''
+        endfunction
+    elseif findfile('plugin/webdevicons.vim', &rtp) != ''
+        let s:airline_show_devicons = 1
 
-    function! AirlineDevIconsStatus() abort
-        if s:ActiveWindow() && !s:IsCompact()
-            return WebDevIconsGetFileTypeSymbol() . '  ' . WebDevIconsGetFileFormatSymbol()
-        endif
-        return ''
-    endfunction
+        function! AirlineDevIconsStatus() abort
+            if s:ActiveWindow() && !s:IsCompact()
+                return WebDevIconsGetFileTypeSymbol() . '  ' . WebDevIconsGetFileFormatSymbol()
+            endif
+            return ''
+        endfunction
+    endif
 endif
 
 if s:airline_show_devicons
