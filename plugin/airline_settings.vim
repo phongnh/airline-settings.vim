@@ -116,11 +116,10 @@ let g:airline_show_devicons = get(g:, 'airline_show_devicons', 1)
 let g:airline_show_vim_logo = get(g:, 'airline_show_vim_logo', 1)
 
 " Powerline Fonts
-let g:airline_powerline_fonts  = get(g:, 'airline_powerline', 0)
-let g:airline_powerline_style  = get(g:, 'airline_powerline_style', 'default')
+let g:airline_powerline_fonts  = get(g:, 'airline_powerline_fonts', 0)
 
 if g:airline_powerline_fonts
-    call airline_settings#SetPowerlineSeparators(g:airline_powerline_style)
+    call airline_settings#SetPowerlineSeparators(get(g:, 'airline_powerline_style', 'default'))
 else
     let g:airline_powerline_fonts = 0
 
