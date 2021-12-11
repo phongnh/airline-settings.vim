@@ -22,6 +22,7 @@ let g:airline_ignore_extensions = [
             \ 'eclim',
             \ 'example',
             \ 'fern',
+            \ 'gina',
             \ 'hunks',
             \ 'keymap',
             \ 'localsearch',
@@ -31,8 +32,10 @@ let g:airline_ignore_extensions = [
             \ 'po',
             \ 'poetv',
             \ 'promptline',
+            \ 'rufo',
             \ 'scrollbar',
             \ 'searchcount',
+            \ 'taglist',
             \ 'tmuxline',
             \ 'unicode',
             \ 'unite',
@@ -223,10 +226,12 @@ if !exists('g:airline_filetype_overrides')
     let g:airline_filetype_overrides = {}
 endif
 
-let g:airline_filetype_overrides['fern'] = ['%{AirlineFernMode()}', '%{AirlineFernFolder()}']
-let g:airline_filetype_overrides['NvimTree'] = ['NvimTree', '']
-let g:airline_filetype_overrides['dirvish'] = ['Dirvish', '%{expand("%:p:h")}']
-let g:airline_filetype_overrides['CHADTree'] = ['CHADTree', '']
+call extend(g:airline_filetype_overrides, {
+            \ 'fern':     ['%{AirlineFernMode()}', '%{AirlineFernFolder()}'],
+            \ 'NvimTree': ['NvimTree', ''],
+            \ 'dirvish':  ['Dirvish', '%{expand("%:p:h")}'],
+            \ 'CHADTree': ['CHADTree', ''],
+            \ })
 
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left([
@@ -256,7 +261,7 @@ let g:airline_section_y = airline#section#create_right([
             \ ])
 
 
-let g:airline_section_error   = airline#section#create([
+let g:airline_section_error = airline#section#create([
             \ 'ycm_error_count',
             \ 'syntastic-err',
             \ 'neomake_error_count',
