@@ -231,6 +231,7 @@ call extend(g:airline_filetype_overrides, {
             \ 'NvimTree': ['NvimTree', ''],
             \ 'dirvish':  ['Dirvish', '%{expand("%:p:h")}'],
             \ 'CHADTree': ['CHADTree', ''],
+            \ 'alpha':    ['Alpha', ''],
             \ })
 
 " Show only mode, clipboard, paste and spell
