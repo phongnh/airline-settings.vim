@@ -43,6 +43,7 @@ let g:airline_ignore_extensions = [
             \ 'vimcmake',
             \ 'vimtex',
             \ 'virtualenv',
+            \ 'vista',
             \ 'whitespace',
             \ 'windowswap',
             \ 'wordcount',
@@ -248,7 +249,6 @@ let g:airline_section_a = airline#section#create_left([
 " Move filetype into other section
 let g:airline_section_x = airline#section#create_right([
             \ 'tagbar',
-            \ 'vista',
             \ 'gutentags',
             \ 'gen_tags',
             \ 'grepper',
