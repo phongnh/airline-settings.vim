@@ -26,6 +26,7 @@ let g:airline_ignore_extensions = [
             \ 'hunks',
             \ 'keymap',
             \ 'localsearch',
+            \ 'mundo',
             \ 'netrw',
             \ 'obsession',
             \ 'omnisharp',
