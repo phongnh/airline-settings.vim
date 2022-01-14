@@ -264,24 +264,18 @@ let g:airline_section_y = airline#section#create_right([
 
 
 let g:airline_section_error = airline#section#create([
-            \ 'ycm_error_count',
-            \ 'syntastic-err',
             \ 'neomake_error_count',
             \ 'ale_error_count',
             \ 'lsp_error_count',
             \ 'nvimlsp_error_count',
-            \ 'languageclient_error_count',
-            \ 'coc_error_count',
+            \ 'vim9lsp_error_count',
             \ ])
 let g:airline_section_warning = airline#section#create([
-            \ 'ycm_warning_count',
-            \ 'syntastic-warn',
             \ 'neomake_warning_count',
             \ 'ale_warning_count',
             \ 'lsp_warning_count',
             \ 'nvimlsp_warning_count',
-            \ 'languageclient_warning_count',
-            \ 'coc_warning_count',
+            \ 'vim9lsp_warning_count',
             \ 'whitespace',
             \ ])
 
