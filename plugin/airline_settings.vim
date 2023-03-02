@@ -305,6 +305,21 @@ if g:airline_show_devicons
             endif
             return ''
         endfunction
+    elseif exists("g:AirlineWebDevIconsFind")
+        let s:airline_show_devicons = 1
+
+        let s:web_devicons_fileformats = {
+                    \ 'dos': '',
+                    \ 'mac': '',
+                    \ 'unix': '',
+                    \ }
+
+        function! AirlineDevIconsStatus() abort
+            if s:ActiveWindow() && !s:IsCompact()
+                return g:AirlineWebDevIconsFind(bufname('%')) . '  ' . get(s:web_devicons_fileformats, &fileformat, '')
+            endif
+            return ''
+        endfunction
     endif
 endif
 
