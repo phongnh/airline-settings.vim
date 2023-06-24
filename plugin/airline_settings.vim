@@ -194,6 +194,14 @@ function! s:ParseFernName(fern_name) abort
     return matchlist(a:fern_name, '^fern://\(.\+\)/file://\(.\+\)\$')
 endfunction
 
+function! AirlineNeoTreeSource(...) abort
+    if exists('b:neo_tree_source')
+        return b:neo_tree_source
+    endif
+
+    return ''
+endfunction
+
 function! AirlineFernMode(...) abort
     let data = s:ParseFernName(get(a:, 1, expand('%')))
 
@@ -229,6 +237,7 @@ if !exists('g:airline_filetype_overrides')
 endif
 
 call extend(g:airline_filetype_overrides, {
+            \ 'neo-tree': ['NeoTree', '%{AirlineNeoTreeSource()}'],
             \ 'fern':     ['%{AirlineFernMode()}', '%{AirlineFernFolder()}'],
             \ 'NvimTree': ['NvimTree', ''],
             \ 'dirvish':  ['Dirvish', '%{expand("%:p:h")}'],
