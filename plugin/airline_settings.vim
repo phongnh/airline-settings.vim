@@ -198,6 +198,15 @@ function! AirlineNeoTreeSource(...) abort
     return ''
 endfunction
 
+" Support https://github.com/SidOfc/carbon.nvim
+function! AirlineCarbonFolder(...) abort
+    if exists('b:carbon')
+        return fnamemodify(b:carbon['path'], ':p:~:.:h')
+    endif
+
+    return ''
+endfunction
+
 " Support lambdalisue/fern.vim
 function! s:ParseFernName(fern_name) abort
     return matchlist(a:fern_name, '^fern://\(.\+\)/file://\(.\+\)\$')
@@ -238,12 +247,13 @@ if !exists('g:airline_filetype_overrides')
 endif
 
 call extend(g:airline_filetype_overrides, {
-            \ 'neo-tree': ['NeoTree', '%{AirlineNeoTreeSource()}'],
-            \ 'fern':     ['%{AirlineFernMode()}', '%{AirlineFernFolder()}'],
-            \ 'NvimTree': ['NvimTree', ''],
-            \ 'dirvish':  ['Dirvish', '%{expand("%:p:h")}'],
-            \ 'CHADTree': ['CHADTree', ''],
-            \ 'alpha':    ['Alpha', ''],
+            \ 'neo-tree':        ['NeoTree', '%{AirlineNeoTreeSource()}'],
+            \ 'carbon.explorer': ['Carbon', '%{AirlineCarbonFolder()}'],
+            \ 'fern':            ['%{AirlineFernMode()}', '%{AirlineFernFolder()}'],
+            \ 'NvimTree':        ['NvimTree', ''],
+            \ 'dirvish':         ['Dirvish', '%{expand("%:p:h")}'],
+            \ 'CHADTree':        ['CHADTree', ''],
+            \ 'alpha':           ['Alpha', ''],
             \ })
 
 " Show only mode, clipboard, paste and spell
