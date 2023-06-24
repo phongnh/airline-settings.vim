@@ -189,17 +189,18 @@ function! AirlineFileEncodingAndFormatStatus() abort
     return l:encoding . l:bomb . l:format
 endfunction
 
-" Support lambdalisue/fern.vim
-function! s:ParseFernName(fern_name) abort
-    return matchlist(a:fern_name, '^fern://\(.\+\)/file://\(.\+\)\$')
-endfunction
-
+" Support https://github.com/nvim-neo-tree/neo-tree.nvim
 function! AirlineNeoTreeSource(...) abort
     if exists('b:neo_tree_source')
         return b:neo_tree_source
     endif
 
     return ''
+endfunction
+
+" Support lambdalisue/fern.vim
+function! s:ParseFernName(fern_name) abort
+    return matchlist(a:fern_name, '^fern://\(.\+\)/file://\(.\+\)\$')
 endfunction
 
 function! AirlineFernMode(...) abort
