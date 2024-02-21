@@ -364,6 +364,10 @@ if g:airline_show_vim_logo && s:airline_show_devicons
     let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
 endif
 
+let g:airline_theme_map = extend(get(g:, 'airline_theme_map', {}), {
+            \ 'gruvbox': 'gruvbox8',
+            \ })
+
 " Overwrite for Terminal
 call airline#parts#define('linenr', {
             \ 'raw': '%l',
