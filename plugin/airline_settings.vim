@@ -27,7 +27,6 @@ let g:airline_ignore_extensions = [
             \ 'keymap',
             \ 'localsearch',
             \ 'mundo',
-            \ 'netrw',
             \ 'obsession',
             \ 'omnisharp',
             \ 'po',
@@ -207,15 +206,6 @@ function! AirlineCarbonFolder(...) abort
     return ''
 endfunction
 
-" Netrw
-function! AirlineNetrwFolder(...) abort
-    if exists('b:netrw_curdir')
-        return fnamemodify(b:netrw_curdir, ':p:~:.:h')
-    endif
-
-    return ''
-endfunction
-
 " Support lambdalisue/fern.vim
 function! s:ParseFernName(fern_name) abort
     return matchlist(a:fern_name, '^fern://\(.\+\)/file://\(.\+\)\$')
@@ -258,7 +248,6 @@ endif
 call extend(g:airline_filetype_overrides, {
             \ 'neo-tree':        ['NeoTree', '%{AirlineNeoTreeSource()}'],
             \ 'carbon.explorer': ['Carbon', '%{AirlineCarbonFolder()}'],
-            \ 'netrw':           ['Netrw', '%{AirlineNetrwFolder()}'],
             \ 'fern':            ['%{AirlineFernMode()}', '%{AirlineFernFolder()}'],
             \ 'NvimTree':        ['NvimTree', ''],
             \ 'dirvish':         ['Dirvish', '%{expand("%:p:h")}'],
