@@ -198,6 +198,17 @@ function! AirlineNeoTreeSource(...) abort
     return ''
 endfunction
 
+" Support https://github.com/stevearc/oil.nvim
+function! AirlineOilFolder(...) abort
+    let l:oil_dir = expand('%')
+    if l:oil_dir =~# '^oil://'
+        let l:oil_dir = substitute(l:oil_dir, '^oil://', '', '')
+        return fnamemodify(l:oil_dir, ':p:~:.:h')
+    endif
+
+    return ''
+endfunction
+
 " Support https://github.com/SidOfc/carbon.nvim
 function! AirlineCarbonFolder(...) abort
     if exists('b:carbon')
@@ -248,6 +259,7 @@ endif
 
 call extend(g:airline_filetype_overrides, {
             \ 'neo-tree':        ['NeoTree', '%{AirlineNeoTreeSource()}'],
+            \ 'oil':             ['Oil', '%{AirlineOilFolder()}']
             \ 'carbon.explorer': ['Carbon', '%{AirlineCarbonFolder()}'],
             \ 'fern':            ['%{AirlineFernMode()}', '%{AirlineFernFolder()}'],
             \ 'NvimTree':        ['NvimTree', ''],
