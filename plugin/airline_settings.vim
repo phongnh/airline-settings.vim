@@ -259,12 +259,12 @@ endif
 
 call extend(g:airline_filetype_overrides, {
             \ 'neo-tree':        ['NeoTree', '%{AirlineNeoTreeSource()}'],
-            \ 'oil':             ['Oil', '%{AirlineOilFolder()}']
+            \ 'oil':             ['Oil', '%{AirlineOilFolder()}'],
             \ 'carbon.explorer': ['Carbon', '%{AirlineCarbonFolder()}'],
             \ 'fern':            ['%{AirlineFernMode()}', '%{AirlineFernFolder()}'],
             \ 'NvimTree':        ['NvimTree', ''],
             \ 'dirvish':         ['Dirvish', '%{expand("%:p:h")}'],
-            \ 'molder':          ['Molder', '%{fnamemodify(b:molder_dir, ":p:~:.:h")}']
+            \ 'molder':          ['Molder', '%{fnamemodify(b:molder_dir, ":p:~:.:h")}'],
             \ 'CHADTree':        ['CHADTree', ''],
             \ 'alpha':           ['Alpha', ''],
             \ })
