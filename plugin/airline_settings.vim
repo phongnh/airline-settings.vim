@@ -3,6 +3,19 @@ if exists('g:loaded_airline_settings')
 endif
 let g:loaded_airline_settings = 1
 
+let s:save_cpo = &cpo
+set cpo&vim
+
+" Disable vim-devicons integration for Airline's statusline
+let g:webdevicons_enable_airline_statusline = 0
+
+" Settings
+let g:airline_powerline_fonts = get(g:, 'airline_powerline_fonts', 0)
+let g:airline_show_devicons   = get(g:, 'airline_show_devicons',   1)
+let g:airline_show_git_branch = get(g:, 'airline_show_git_branch', 1)
+let g:airline_show_vim_logo   = get(g:, 'airline_show_vim_logo',   1)
+let g:airline_show_linenr     = get(g:, 'airline_show_linenr',     0)
+
 " Window width
 let g:airline_winwidth_config = extend({
             \ 'xsmall': 60,
@@ -59,7 +72,9 @@ for ext in g:airline_ignore_extensions
     let g:airline#extensions#{ext}#enabled = 0
 endfor
 
-let g:airline#extensions#branch#enabled = get(g:, 'airline_show_git_branch', 1)
+let g:airline#extensions#branch#enabled = g:airline_show_git_branch
+" Branch - show only 30 characters of branch name
+let g:airline#extensions#branch#displayed_head_limit = 30
 
 " Disable truncation
 let g:airline#extensions#default#section_truncate_width = {}
@@ -82,31 +97,6 @@ let g:airline#extensions#tabline#buffer_nr_show  = 1
 let g:airline#extensions#tabline#fnamemod        = ':t'
 let g:airline#extensions#tabline#fnametruncate   = 30
 
-function! OverwriteDefaultFormat() abort
-    " Copied from vim-airline
-    " Show buffer nr in Buffers mode
-    function! airline#extensions#tabline#formatters#default#wrap_name(bufnr, buffer_name) abort
-        let buf_nr_format = get(g:, 'airline#extensions#tabline#buffer_nr_format', '%s: ')
-        let buf_nr_show = tabpagenr('$') == 1
-
-        let _ = buf_nr_show ? printf(buf_nr_format, a:bufnr) : ''
-        let _ .= substitute(a:buffer_name, '\\', '/', 'g')
-
-        if getbufvar(a:bufnr, '&modified') == 1
-            let _ .= g:airline_symbols.modified
-        endif
-        return _
-    endfunction
-endfunction
-
-augroup airline-settings
-    autocmd!
-    autocmd VimEnter * call OverwriteDefaultFormat()
-augroup END
-
-" Branch - show only 30 characters of branch name
-let g:airline#extensions#branch#displayed_head_limit = 30
-
 " Don't show 'utf-8[unix]'
 let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 
@@ -122,15 +112,6 @@ call extend(g:airline_symbols, {
             \ 'dirty':      '',
             \ })
 
-" vim-devicons or nerdfont.vim support
-let g:airline_show_devicons = get(g:, 'airline_show_devicons', 1)
-
-" Show Vim Logo in Tabline
-let g:airline_show_vim_logo = get(g:, 'airline_show_vim_logo', 1)
-
-" Powerline Fonts
-let g:airline_powerline_fonts  = get(g:, 'airline_powerline_fonts', 0)
-
 if g:airline_powerline_fonts
     call airline_settings#powerline#SetSeparators(get(g:, 'airline_powerline_style', 'default'), get(g:, 'airline_powerline_tab_style', 'default'))
 else
@@ -143,14 +124,21 @@ else
     let g:airline#extensions#tabline#right_sep     = ''
     let g:airline#extensions#tabline#left_alt_sep  = '|'
     let g:airline#extensions#tabline#right_alt_sep = '|'
-
-    let g:airline#extensions#tabline#close_symbol = '×'
+    let g:airline#extensions#tabline#close_symbol  = '×'
 
     let g:airline_symbols.clipboard .= ' '
     call extend(g:airline_symbols, {
                 \ 'branch':   '⎇ ',
                 \ 'readonly': '',
                 \ })
+endif
+
+let g:airline_show_devicons = g:airline_show_devicons && airline_settings#devicons#Detect()
+
+if g:airline_show_devicons && g:airline_show_vim_logo
+    " Show Vim Logo in Tabline
+    let g:airline#extensions#tabline#tabs_label    = "\ue7c5" . ' '
+    let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
 endif
 
 if !exists('g:airline_filetype_overrides')
@@ -191,12 +179,17 @@ let g:airline_section_x = airline#section#create_right([
             \ 'grepper',
             \ ])
 
-" Add filesize and filetype info
+" Add indentation, file encoding, file format and file type info
 let g:airline_section_y = airline#section#create_right([
             \ 'indentation',
             \ 'ffenc',
             \ 'filetype',
             \ ])
+
+if g:airline_show_devicons
+    " Append DevIcons
+    let g:airline_section_y .= '%( %{airline_settings#parts#FileTypeIcon()} %)'
+endif
 
 let g:airline_section_error = airline#section#create([
             \ 'neomake_error_count',
@@ -214,21 +207,11 @@ let g:airline_section_warning = airline#section#create([
             \ 'whitespace',
             \ ])
 
-" Disable vim-devicons integration for Airline's statusline
-let g:webdevicons_enable_airline_statusline = 0
-
-if g:airline_show_devicons && airline_settings#devicons#Detect()
-    " Append DevIcons
-    let g:airline_section_y .= '%( %{airline_settings#devicons#FileType()} %)'
-
-    if g:airline_show_vim_logo
-        " Show Vim Logo in Tabline
-        let g:airline#extensions#tabline#tabs_label    = "\ue7c5" . ' '
-        let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
-    endif
-endif
-
 augroup AirlineSettings
     autocmd!
     autocmd User AirlineAfterInit call airline_settings#AfterInit()
+    autocmd VimEnter * call airline_settings#Init()
 augroup END
+
+let &cpo = s:save_cpo
+unlet s:save_cpo

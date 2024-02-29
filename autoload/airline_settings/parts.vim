@@ -42,3 +42,7 @@ function! airline_settings#parts#Settings() abort
                 \ ]
     return join(filter(copy(parts), '!empty(v:val)'), spc . g:airline_left_alt_sep . spc)
 endfunction
+
+function! airline_settings#parts#FileTypeIcon() abort
+    return get(w:, 'airline_active', 1) ? airline_settings#devicons#FileType() : ''
+endfunction
