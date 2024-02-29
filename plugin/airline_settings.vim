@@ -194,82 +194,18 @@ function! AirlineFileEncodingAndFormatStatus() abort
     return l:encoding . l:bomb . l:format
 endfunction
 
-" Support https://github.com/nvim-neo-tree/neo-tree.nvim
-function! AirlineNeoTreeSource(...) abort
-    if exists('b:neo_tree_source')
-        return b:neo_tree_source
-    endif
-
-    return ''
-endfunction
-
-" Support https://github.com/stevearc/oil.nvim
-function! AirlineOilFolder(...) abort
-    let l:oil_dir = expand('%')
-    if l:oil_dir =~# '^oil://'
-        let l:oil_dir = substitute(l:oil_dir, '^oil://', '', '')
-        return fnamemodify(l:oil_dir, ':p:~:.:h')
-    endif
-
-    return ''
-endfunction
-
-" Support https://github.com/SidOfc/carbon.nvim
-function! AirlineCarbonFolder(...) abort
-    if exists('b:carbon')
-        return fnamemodify(b:carbon['path'], ':p:~:.:h')
-    endif
-
-    return ''
-endfunction
-
-" Support lambdalisue/fern.vim
-function! s:ParseFernName(fern_name) abort
-    return matchlist(a:fern_name, '^fern://\(.\+\)/file://\(.\+\)\$')
-endfunction
-
-function! AirlineFernMode(...) abort
-    let data = s:ParseFernName(get(a:, 1, expand('%')))
-
-    if len(data)
-        let fern_mode = get(data, 1, '')
-        if match(fern_mode, 'drawer') > -1
-            return 'Drawer'
-        endif
-    endif
-
-    return 'Fern'
-endfunction
-
-function! AirlineFernFolder(...) abort
-    if !s:ActiveWindow()
-        return ''
-    endif
-
-    let data = s:ParseFernName(get(a:, 1, expand('%')))
-
-    if len(data)
-        let fern_folder = get(data, 2, '')
-        let fern_folder = substitute(fern_folder, ';\?\(#.\+\)\?\$\?$', '', '')
-        let fern_folder = fnamemodify(fern_folder, ':p:~:.:h')
-        return fern_folder
-    endif
-
-    return ''
-endfunction
-
 if !exists('g:airline_filetype_overrides')
     let g:airline_filetype_overrides = {}
 endif
 
 call extend(g:airline_filetype_overrides, {
-            \ 'neo-tree':        ['NeoTree', '%{AirlineNeoTreeSource()}'],
-            \ 'oil':             ['Oil', '%{AirlineOilFolder()}'],
-            \ 'carbon.explorer': ['Carbon', '%{AirlineCarbonFolder()}'],
-            \ 'fern':            ['%{AirlineFernMode()}', '%{AirlineFernFolder()}'],
+            \ 'dirvish':         ['Dirvish', '%{airline_settings#dirvish#Folder()}'],
+            \ 'molder':          ['Molder', '%{airline_settings#molder#Folder()}'],
+            \ 'fern':            ['%{airline_settings#fern#Mode()}', '%{airline_settings#fern#Folder()}'],
+            \ 'carbon.explorer': ['Carbon', '%{airline_settings#carbon#Folder()}'],
+            \ 'neo-tree':        ['NeoTree', '%{airline_settings#neotree#Folder()}'],
+            \ 'oil':             ['Oil', '%{airline_settings#oil#Folder()}'],
             \ 'NvimTree':        ['NvimTree', ''],
-            \ 'dirvish':         ['Dirvish', '%{expand("%:p:h")}'],
-            \ 'molder':          ['Molder', '%{fnamemodify(b:molder_dir, ":p:~:.:h")}'],
             \ 'CHADTree':        ['CHADTree', ''],
             \ 'alpha':           ['Alpha', ''],
             \ })
