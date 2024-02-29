@@ -329,8 +329,8 @@ if g:airline_show_devicons
         let s:airline_show_devicons = 1
 
         function! AirlineDevIconsStatus() abort
-            if s:ActiveWindow() && !s:IsCompact()
-                return nerdfont#find() . '  ' .  nerdfont#fileformat#find()
+            if s:ActiveWindow()
+                return nerdfont#find() . ' '
             endif
             return ''
         endfunction
@@ -338,23 +338,17 @@ if g:airline_show_devicons
         let s:airline_show_devicons = 1
 
         function! AirlineDevIconsStatus() abort
-            if s:ActiveWindow() && !s:IsCompact()
-                return WebDevIconsGetFileTypeSymbol() . '  ' . WebDevIconsGetFileFormatSymbol()
+            if s:ActiveWindow()
+                return WebDevIconsGetFileTypeSymbol() . ' '
             endif
             return ''
         endfunction
     elseif exists("g:AirlineWebDevIconsFind")
         let s:airline_show_devicons = 1
 
-        let s:web_devicons_fileformats = {
-                    \ 'dos': '',
-                    \ 'mac': '',
-                    \ 'unix': '',
-                    \ }
-
         function! AirlineDevIconsStatus() abort
-            if s:ActiveWindow() && !s:IsCompact()
-                return g:AirlineWebDevIconsFind(bufname('%')) . '  ' . get(s:web_devicons_fileformats, &fileformat, '')
+            if s:ActiveWindow()
+                return g:AirlineWebDevIconsFind(bufname('%')) . ' '
             endif
             return ''
         endfunction
