@@ -108,11 +108,13 @@ let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-let g:airline_symbols.clipboard  = '🅒 '
-let g:airline_symbols.paste      = '🅟 '
-let g:airline_symbols.spell      = '🅢 '
-let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_symbols.dirty      = ''
+call extends(g:airline_symbols, {
+            \ 'clipboard':  '🅒 ',
+            \ 'paste':      '🅟 ',
+            \ 'spell':      '🅢 ',
+            \ 'whitespace': 'Ξ',
+            \ 'dirty':      '',
+            \ })
 
 " vim-devicons or nerdfont.vim support
 let g:airline_show_devicons = get(g:, 'airline_show_devicons', 1)
@@ -124,12 +126,12 @@ let g:airline_show_vim_logo = get(g:, 'airline_show_vim_logo', 1)
 let g:airline_powerline_fonts  = get(g:, 'airline_powerline_fonts', 0)
 
 if g:airline_powerline_fonts
-    call airline_settings#SetPowerlineSeparators(get(g:, 'airline_powerline_style', 'default'))
+    call airline_settings#powerline#SetSeparators(get(g:, 'airline_powerline_style', 'default'), get(g:, 'airline_powerline_tab_style', 'default'))
 else
-    let g:airline_left_sep        = ''
-    let g:airline_right_sep       = ''
-    let g:airline_left_alt_sep    = '|'
-    let g:airline_right_alt_sep   = '|'
+    let g:airline_left_sep      = ''
+    let g:airline_right_sep     = ''
+    let g:airline_left_alt_sep  = '|'
+    let g:airline_right_alt_sep = '|'
 
     let g:airline#extensions#tabline#left_sep      = ' '
     let g:airline#extensions#tabline#right_sep     = ''
@@ -383,21 +385,7 @@ call airline#parts#define('maxlinenr', {
             \ 'accent': 'bold',
             \ })
 
-function! s:SetupSectionZ() abort
-    if get(g:, 'airline_show_linenr', 0)
-        call airline#parts#define('lineinfo', {
-                    \ 'raw': '%4l:%-3v %P',
-                    \ 'accent': 'bold',
-                    \ })
-        let g:airline_section_z = airline#section#create(['lineinfo'])
-    else
-        " Hide percentage, linenr, maxlinenr and column
-        let g:airline_section_z = ''
-    endif
-endfunction
-
 augroup AirlineSettings
     autocmd!
-    autocmd User AirlineAfterInit setglobal showtabline=1 noshowmode
-    autocmd User AirlineAfterInit call <SID>SetupSectionZ()
+    autocmd User AirlineAfterInit call airline_settings#AfterInit()
 augroup END

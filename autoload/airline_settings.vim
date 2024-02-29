@@ -1,125 +1,14 @@
-function! s:InitPowerlineStyles() abort
-    let s:statusline_separator_styles = {
-                \ '><': { 'left': "\ue0b0", 'right': "\ue0b2" },
-                \ '>(': { 'left': "\ue0b0", 'right': "\ue0b6" },
-                \ '>\': { 'left': "\ue0b0", 'right': "\ue0be" },
-                \ '>/': { 'left': "\ue0b0", 'right': "\ue0ba" },
-                \ ')(': { 'left': "\ue0b4", 'right': "\ue0b6" },
-                \ ')<': { 'left': "\ue0b4", 'right': "\ue0b2" },
-                \ ')\': { 'left': "\ue0b4", 'right': "\ue0be" },
-                \ ')/': { 'left': "\ue0b4", 'right': "\ue0ba" },
-                \ '\\': { 'left': "\ue0b8", 'right': "\ue0be" },
-                \ '\/': { 'left': "\ue0b8", 'right': "\ue0ba" },
-                \ '\<': { 'left': "\ue0b8", 'right': "\ue0b2" },
-                \ '\(': { 'left': "\ue0b8", 'right': "\ue0b6" },
-                \ '//': { 'left': "\ue0bc", 'right': "\ue0ba" },
-                \ '/\': { 'left': "\ue0bc", 'right': "\ue0be" },
-                \ '/<': { 'left': "\ue0bc", 'right': "\ue0b2" },
-                \ '/(': { 'left': "\ue0bc", 'right': "\ue0b6" },
-                \ '||': { 'left': '', 'right': '' },
-                \ }
+function! airline_settings#AfterInit() abort
+    setglobal showtabline=1 noshowmode
 
-    let s:statusline_subseparator_styles = {
-                \ '><': { 'left': "\ue0b1", 'right': "\ue0b3" },
-                \ '>(': { 'left': "\ue0b1", 'right': "\ue0b7" },
-                \ '>\': { 'left': "\ue0b1", 'right': "\ue0b9" },
-                \ '>/': { 'left': "\ue0b1", 'right': "\ue0bb" },
-                \ ')(': { 'left': "\ue0b5", 'right': "\ue0b7" },
-                \ ')<': { 'left': "\ue0b5", 'right': "\ue0b1" },
-                \ ')\': { 'left': "\ue0b5", 'right': "\ue0b9" },
-                \ ')/': { 'left': "\ue0b5", 'right': "\ue0bb" },
-                \ '\\': { 'left': "\ue0b9", 'right': "\ue0b9" },
-                \ '\/': { 'left': "\ue0b9", 'right': "\ue0bb" },
-                \ '\<': { 'left': "\ue0b9", 'right': "\ue0b3" },
-                \ '\(': { 'left': "\ue0b9", 'right': "\ue0b7" },
-                \ '//': { 'left': "\ue0bb", 'right': "\ue0bb" },
-                \ '/\': { 'left': "\ue0bd", 'right': "\ue0b9" },
-                \ '/<': { 'left': "\ue0bb", 'right': "\ue0b3" },
-                \ '/(': { 'left': "\ue0bb", 'right': "\ue0b7" },
-                \ '||': { 'left': '|', 'right': '|' },
-                \ }
-
-    call extend(s:statusline_separator_styles, {
-                \ 'default': copy(s:statusline_separator_styles['><']),
-                \ 'angle':   copy(s:statusline_separator_styles['><']),
-                \ 'curvy':   copy(s:statusline_separator_styles[')(']),
-                \ 'slant':   copy(s:statusline_separator_styles['//']),
-                \ })
-
-    call extend(s:statusline_subseparator_styles, {
-                \ 'default': copy(s:statusline_subseparator_styles['><']),
-                \ 'angle':   copy(s:statusline_subseparator_styles['><']),
-                \ 'curvy':   copy(s:statusline_subseparator_styles[')(']),
-                \ 'slant':   copy(s:statusline_subseparator_styles['//']),
-                \ })
-
-    let s:tabline_separator_styles = extend(deepcopy(s:statusline_separator_styles), {
-                \ '||': { 'left': ' ', 'right': '' },
-                \ })
-
-    let s:tabline_subseparator_styles = extend(deepcopy(s:statusline_subseparator_styles), {
-                \ '||': { 'left': '|', 'right': '|' },
-                \ })
-endfunction
-
-function! s:Rand() abort
-    return str2nr(matchstr(reltimestr(reltime()), '\v\.@<=\d+')[1:])
-endfunction
-
-
-function! s:GetStyle(style) abort
-    if type(a:style) == type([])
-        let l:statusline_style = get(a:style, 0, 'default')
-        let l:tabline_style = get(a:style, 1, 'default')
-    elseif type(a:style) == type('')
-        let l:statusline_style = a:style
-        let l:tabline_style = a:style
+    if get(g:, 'airline_show_linenr', 0)
+        call airline#parts#define('lineinfo', {
+                    \ 'raw':    '%4l:%-3v %P',
+                    \ 'accent': 'bold',
+                    \ })
+        let g:airline_section_z = airline#section#create(['lineinfo'])
     else
-        let l:statusline_style = 'default'
-        let l:tabline_style = 'default'
+        " Hide percentage, linenr, maxlinenr and column
+        let g:airline_section_z = ''
     endif
-
-    if empty(l:statusline_style)
-        let l:statusline_style = 'default'
-    endif
-
-    if empty(l:tabline_style)
-        let l:tabline_style = 'default'
-    endif
-
-    if l:statusline_style ==? 'random'
-        let l:statusline_style = keys(s:statusline_separator_styles)[s:Rand() % len(s:statusline_separator_styles)]
-    endif
-
-    if l:tabline_style ==? 'random'
-        let l:tabline_style = keys(s:statusline_separator_styles)[s:Rand() % len(s:statusline_separator_styles)]
-    endif
-
-    return [l:statusline_style, l:tabline_style]
-endfunction
-
-function! s:SetSeparator(statusline_style, tabline_style) abort
-    let l:statusline_separator    = get(s:statusline_separator_styles, a:statusline_style, s:statusline_separator_styles['default'])
-    let l:statusline_subseparator = get(s:statusline_subseparator_styles, a:statusline_style, s:statusline_subseparator_styles['default'])
-
-    let g:airline_left_sep      = l:statusline_separator['left']
-    let g:airline_right_sep     = l:statusline_separator['right']
-    let g:airline_left_alt_sep  = l:statusline_subseparator['left']
-    let g:airline_right_alt_sep = l:statusline_subseparator['right']
-
-    let l:tabline_separator    = get(s:tabline_separator_styles, a:tabline_style, s:tabline_separator_styles['default'])
-    let l:tabline_subseparator = get(s:tabline_subseparator_styles, a:tabline_style, s:tabline_subseparator_styles['default'])
-
-    let g:airline#extensions#tabline#left_sep      = l:tabline_separator['left']
-    let g:airline#extensions#tabline#right_sep     = l:tabline_separator['right']
-    let g:airline#extensions#tabline#left_alt_sep  = l:tabline_subseparator['left']
-    let g:airline#extensions#tabline#right_alt_sep = l:tabline_subseparator['right']
-endfunction
-
-function! airline_settings#SetPowerlineSeparators(style) abort
-    call s:InitPowerlineStyles()
-
-    let [l:statusline_style, l:tabline_style] = s:GetStyle(a:style)
-
-    call s:SetSeparator(l:statusline_style, l:tabline_style)
 endfunction
