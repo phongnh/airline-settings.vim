@@ -320,47 +320,10 @@ let g:airline_section_warning = airline#section#create([
 " Disable vim-devicons integration for Airline's statusline
 let g:webdevicons_enable_airline_statusline = 0
 
-let s:airline_show_devicons = 0
-
-if g:airline_show_devicons
-    " Detect vim-devicons or nerdfont.vim
-    " let s:has_devicons = exists('*WebDevIconsGetFileTypeSymbol') && exists('*WebDevIconsGetFileFormatSymbol')
-    if findfile('autoload/nerdfont.vim', &rtp) != ''
-        let s:airline_show_devicons = 1
-
-        function! AirlineDevIconsStatus() abort
-            if s:ActiveWindow()
-                return nerdfont#find() . ' '
-            endif
-            return ''
-        endfunction
-    elseif findfile('plugin/webdevicons.vim', &rtp) != ''
-        let s:airline_show_devicons = 1
-
-        function! AirlineDevIconsStatus() abort
-            if s:ActiveWindow()
-                return WebDevIconsGetFileTypeSymbol() . ' '
-            endif
-            return ''
-        endfunction
-    elseif exists("g:AirlineWebDevIconsFind")
-        let s:airline_show_devicons = 1
-
-        function! AirlineDevIconsStatus() abort
-            if s:ActiveWindow()
-                return g:AirlineWebDevIconsFind(bufname('%')) . ' '
-            endif
-            return ''
-        endfunction
-    endif
-endif
-
-if s:airline_show_devicons
+if g:airline_show_devicons && airline_settings#devicons#Detect()
     " Append DevIcons
-    let g:airline_section_y .= '%( %{AirlineDevIconsStatus()} %)'
-endif
+    let g:airline_section_y .= '%( %{airline_settings#devicons#FileType()} %)'
 
-if g:airline_show_vim_logo && s:airline_show_devicons
     " Show Vim Logo in Tabline
     let g:airline#extensions#tabline#tabs_label    = "\ue7c5" . ' '
     let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
