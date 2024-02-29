@@ -141,7 +141,10 @@ else
     let g:airline#extensions#tabline#close_symbol = '×'
 
     let g:airline_symbols.clipboard .= ' '
-    let g:airline_symbols.branch     = ''
+    call extend(g:airline_symbols, {
+                \ 'branch':   '⎇ ',
+                \ 'readonly': '',
+                \ })
 endif
 
 " Define extra parts
