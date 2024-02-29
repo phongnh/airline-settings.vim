@@ -1,3 +1,21 @@
+function! airline_settings#Strip(str) abort
+    return substitute(a:str, '^\s*\(.\{-}\)\s*$', '\1', '')
+endfunction
+
+if exists('*trim')
+    function! airline_settings#Strip(str) abort
+        return trim(a:str)
+    endfunction
+endif
+
+function! airline_settings#IsClipboardEnabled() abort
+    return match(&clipboard, 'unnamed') > -1
+endfunction
+
+function! airline_settings#IsCompact() abort
+    return &spell || &paste || airline_settings#IsClipboardEnabled() || winwidth(0) <= g:airline_winwidth_config.xsmall
+endfunction
+
 function! airline_settings#AfterInit() abort
     setglobal showtabline=1 noshowmode
 

@@ -4,8 +4,11 @@ endif
 let g:loaded_airline_settings = 1
 
 " Window width
-let s:xsmall_window_width = 60
-let s:small_window_width  = 80
+let g:airline_winwidth_config = extend({
+            \ 'xsmall': 60,
+            \ 'small':  80,
+            \ 'normal': 120,
+            \ }, get(g:, 'airline_winwidth_config', {}))
 
 " Disable some extensions
 let g:airline_ignore_extensions = [
@@ -63,6 +66,9 @@ let g:airline#extensions#default#section_truncate_width = {}
 
 " Enable iminsert
 let g:airline_detect_iminsert = 1
+
+" Enable spellang flags
+let g:airline_detect_spelllang = 'flag'
 
 " Enable tabline
 let g:airline#extensions#tabline#enabled         = 1
@@ -147,53 +153,6 @@ else
                 \ })
 endif
 
-" Define extra parts
-call airline#parts#define_function('clipboard', 'AirlineClipboardStatus')
-call airline#parts#define_function('indentation', 'AirlineIndentationStatus')
-call airline#parts#define_function('ffenc', 'AirlineFileEncodingAndFormatStatus')
-
-function! s:IsClipboardEnabled() abort
-    return match(&clipboard, 'unnamed') > -1
-endfunction
-
-function! AirlineClipboardStatus() abort
-    return s:IsClipboardEnabled() ? g:airline_symbols.clipboard : ''
-endfunction
-
-function! s:ActiveWindow() abort
-    return get(w:, 'airline_active', 1)
-endfunction
-
-function! s:IsCompact() abort
-    return &spell || &paste || s:IsClipboardEnabled() || winwidth(0) <= s:xsmall_window_width
-endfunction
-
-function! AirlineIndentationStatus() abort
-    if !s:ActiveWindow() || winwidth(0) < s:small_window_width
-        return ''
-    endif
-
-    let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
-    if s:IsCompact()
-        return printf(&expandtab ? 'SPC: %d' : 'TAB: %d', l:shiftwidth)
-    else
-        return printf(&expandtab ? 'Spaces: %d' : 'Tab Size: %d', l:shiftwidth)
-    endif
-endfunction
-
-function! AirlineFileEncodingAndFormatStatus() abort
-    let l:encoding = strlen(&fileencoding) ? &fileencoding : &encoding
-    let l:bomb     = &bomb ? '[BOM]' : ''
-    let l:format   = strlen(&fileformat) ? printf('[%s]', &fileformat) : ''
-
-    " Skip common string utf-8[unix]
-    if (l:encoding . l:format) ==# g:airline#parts#ffenc#skip_expected_string
-        return l:bomb
-    endif
-
-    return l:encoding . l:bomb . l:format
-endfunction
-
 if !exists('g:airline_filetype_overrides')
     let g:airline_filetype_overrides = {}
 endif
@@ -210,14 +169,17 @@ call extend(g:airline_filetype_overrides, {
             \ 'alpha':           ['Alpha', ''],
             \ })
 
+" Define extra parts
+call airline#parts#define_function('settings', 'airline_settings#parts#Settings')
+call airline#parts#define_function('indentation', 'airline_settings#parts#Indentation')
+call airline#parts#define_function('ffenc', 'airline_settings#parts#FileEncodingAndFormat')
+
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left([
             \ 'mode',
-            \ 'clipboard',
+            \ 'settings',
             \ 'crypt',
-            \ 'paste',
             \ 'keymap',
-            \ 'spell',
             \ 'iminsert',
             \ ])
 
@@ -235,7 +197,6 @@ let g:airline_section_y = airline#section#create_right([
             \ 'ffenc',
             \ 'filetype',
             \ ])
-
 
 let g:airline_section_error = airline#section#create([
             \ 'neomake_error_count',
