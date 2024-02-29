@@ -324,9 +324,11 @@ if g:airline_show_devicons && airline_settings#devicons#Detect()
     " Append DevIcons
     let g:airline_section_y .= '%( %{airline_settings#devicons#FileType()} %)'
 
-    " Show Vim Logo in Tabline
-    let g:airline#extensions#tabline#tabs_label    = "\ue7c5" . ' '
-    let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
+    if g:airline_show_vim_logo
+        " Show Vim Logo in Tabline
+        let g:airline#extensions#tabline#tabs_label    = "\ue7c5" . ' '
+        let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
+    endif
 endif
 
 augroup AirlineSettings
