@@ -44,5 +44,5 @@ function! airline_settings#parts#Settings() abort
 endfunction
 
 function! airline_settings#parts#FileTypeIcon() abort
-    return get(w:, 'airline_active', 1) ? airline_settings#devicons#FileType() : ''
+    return airline_settings#IsActive() ? airline_settings#devicons#FileType() : ''
 endfunction

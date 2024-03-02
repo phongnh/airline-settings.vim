@@ -29,8 +29,12 @@ function! airline_settings#Concatenate(parts, ...) abort
     return join(filter(copy(a:parts), 'v:val !=# ""'), g:airline_symbols.space . separator . g:airline_symbols.space)
 endfunction
 
+function! airline_settings#IsActive() abort
+    return get(w:, 'airline_active', 1)
+endfunction
+
 function! airline_settings#IsInactive() abort
-    return !get(w:, 'airline_active', 1)
+    return !airline_settings#IsActive()
 endfunction
 
 function! airline_settings#Setup() abort
