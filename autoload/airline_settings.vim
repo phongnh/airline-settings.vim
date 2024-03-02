@@ -28,7 +28,7 @@ function! airline_settings#IsInactive() abort
     return !get(w:, 'airline_active', 1)
 endfunction
 
-function! airline_settings#AfterInit() abort
+function! airline_settings#AirlineAfterInit() abort
     setglobal showtabline=1 noshowmode
 
     " Overwrite for Terminal

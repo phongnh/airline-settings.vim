@@ -225,7 +225,7 @@ let g:airline_section_warning = airline#section#create([
 
 augroup AirlineSettings
     autocmd!
-    autocmd User AirlineAfterInit call airline_settings#AfterInit()
+    autocmd User AirlineAfterInit call airline_settings#AirlineAfterInit()
     autocmd VimEnter * call airline_settings#Init()
 augroup END
 
