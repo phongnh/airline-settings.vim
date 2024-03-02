@@ -3,8 +3,11 @@ function! s:ClipboardStatus(...) abort
 endfunction
 
 function! s:SpellStatus(...) abort
-    let spell = airline_settings#Trim(airline#parts#spell())
-    return empty(spell) ? '' : (g:airline_symbols.space . spell)
+    if g:airline_detect_spelllang ==# 'flag'
+        let spell = airline_settings#Trim(airline#parts#spell())
+        return empty(spell) ? '' : (g:airline_symbols.space . spell)
+    endif
+    return &spell ? toupper(substitute(&spelllang, ',', '/', 'g')) : ''
 endfunction
 
 function! airline_settings#parts#Indentation(...) abort

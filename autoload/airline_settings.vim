@@ -55,7 +55,7 @@ function! airline_settings#Setup() abort
     let g:airline_detect_iminsert = 1
 
     " Enable spellang flags
-    let g:airline_detect_spelllang = 'flag'
+    let g:airline_detect_spelllang = get(g:, 'airline_detect_spelllang', 1)
 
     " Disable truncation
     let g:airline#extensions#default#section_truncate_width = {}
