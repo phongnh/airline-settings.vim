@@ -79,6 +79,8 @@ function! airline_settings#Setup() abort
     let g:airline#extensions#branch#enabled = g:airline_show_git_branch
     " Branch - show only 30 characters of branch name
     let g:airline#extensions#branch#displayed_head_limit = 30
+    " Disable untracked and dirty checks
+    let g:airline#extensions#branch#vcs_checks = []
 
     " Don't show 'utf-8[unix]'
     let g:airline#parts#ffenc#skip_expected_string = 'utf-8[unix]'
