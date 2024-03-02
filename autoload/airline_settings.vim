@@ -25,16 +25,17 @@ function! airline_settings#IsCompact(...) abort
 endfunction
 
 function! airline_settings#Concatenate(parts, ...) abort
-    let separator = get(a:, 1, 0) ? g:airline_left_alt_sepp : g:airline_left_alt_sep
+    let separator = get(a:, 1, 0) ? g:airline_right_alt_sep : g:airline_left_alt_sep
     return join(filter(copy(a:parts), 'v:val !=# ""'), g:airline_symbols.space . separator . g:airline_symbols.space)
 endfunction
 
-function! airline_settings#IsActive() abort
-    return get(w:, 'airline_active', 1)
+function! airline_settings#BufferType() abort
+    return strlen(&filetype) ? &filetype : &buftype
 endfunction
 
-function! airline_settings#IsInactive() abort
-    return !airline_settings#IsActive()
+function! airline_settings#FileName() abort
+    let fname = expand('%')
+    return strlen(fname) ? fnamemodify(fname, ':~:.') : '[No Name]'
 endfunction
 
 function! airline_settings#Setup() abort

@@ -10,10 +10,18 @@ function! s:SpellStatus(...) abort
     return &spell ? toupper(substitute(&spelllang, ',', '/', 'g')) : ''
 endfunction
 
-function! airline_settings#parts#Indentation(...) abort
-    if airline_settings#IsInactive()
-        return ''
+function! airline_settings#parts#Status() abort
+    if get(w:, 'airline_active', 0)
+        return airline_settings#Concatenate([
+                    \ s:ClipboardStatus(),
+                    \ airline#parts#paste(),
+                    \ s:SpellStatus(),
+                    \ ], 0)
     endif
+    return ''
+endfunction
+
+function! s:IndentationStatus(...) abort
     let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
     let compact = get(a:, 1, airline_settings#IsCompact())
     if compact
@@ -23,7 +31,7 @@ function! airline_settings#parts#Indentation(...) abort
     endif
 endfunction
 
-function! airline_settings#parts#FileEncodingAndFormat() abort
+function! s:FileEncodingAndFormatStatus() abort
     let l:encoding = strlen(&fileencoding) ? &fileencoding : &encoding
     let l:encoding = (l:encoding ==# 'utf-8') ? '' : l:encoding . ' '
     let l:bomb     = &bomb ? g:airline_symbols.bomb . ' ' : ''
@@ -33,16 +41,19 @@ function! airline_settings#parts#FileEncodingAndFormat() abort
     return l:encoding . l:bomb . l:noeol . l:format
 endfunction
 
-function! airline_settings#parts#Settings() abort
-    let spc = g:airline_symbols.space
-    let parts = [
-                \ s:ClipboardStatus(),
-                \ airline#parts#paste(),
-                \ s:SpellStatus(),
-                \ ]
-    return join(filter(copy(parts), '!empty(v:val)'), spc . g:airline_left_alt_sep . spc)
+function! airline_settings#parts#Settings(...) abort
+    if get(w:, 'airline_active', 0)
+        return airline_settings#Concatenate([
+                    \ s:IndentationStatus(),
+                    \ s:FileEncodingAndFormatStatus(),
+                    \ ], 1)
+    endif
+    return ''
 endfunction
 
-function! airline_settings#parts#FileTypeIcon() abort
-    return airline_settings#IsActive() ? airline_settings#devicons#FileType() : ''
+function! airline_settings#parts#FileType(...) abort
+    if get(w:, 'airline_active', 0)
+        return airline_settings#BufferType() . airline_settings#devicons#FileType(expand('%'))
+    endif
+    return ''
 endfunction

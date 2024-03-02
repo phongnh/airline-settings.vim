@@ -25,14 +25,14 @@ call extend(g:airline_filetype_overrides, {
             \ })
 
 " Define extra parts
+call airline#parts#define_function('status', 'airline_settings#parts#Status')
 call airline#parts#define_function('settings', 'airline_settings#parts#Settings')
-call airline#parts#define_function('indentation', 'airline_settings#parts#Indentation')
-call airline#parts#define_function('ffenc', 'airline_settings#parts#FileEncodingAndFormat')
+call airline#parts#define_function('filetype', 'airline_settings#parts#FileType')
 
 " Show only mode, clipboard, paste and spell
 let g:airline_section_a = airline#section#create_left([
             \ 'mode',
-            \ 'settings',
+            \ 'status',
             \ 'crypt',
             \ 'keymap',
             \ 'iminsert',
@@ -48,15 +48,9 @@ let g:airline_section_x = airline#section#create_right([
 
 " Add indentation, file encoding, file format and file type info
 let g:airline_section_y = airline#section#create_right([
-            \ 'indentation',
-            \ 'ffenc',
+            \ 'settings',
             \ 'filetype',
             \ ])
-
-if g:airline_show_devicons
-    " Append DevIcons
-    let g:airline_section_y .= '%( %{airline_settings#parts#FileTypeIcon()} %)'
-endif
 
 let g:airline_section_error = airline#section#create([
             \ 'neomake_error_count',
