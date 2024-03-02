@@ -34,16 +34,7 @@ let g:airline_section_a = airline#section#create_left([
             \ 'mode',
             \ 'status',
             \ 'crypt',
-            \ 'keymap',
             \ 'iminsert',
-            \ ])
-
-" Move filetype into other section
-let g:airline_section_x = airline#section#create_right([
-            \ 'tagbar',
-            \ 'gutentags',
-            \ 'gen_tags',
-            \ 'grepper',
             \ ])
 
 " Add indentation, file encoding, file format and file type info

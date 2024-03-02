@@ -56,6 +56,9 @@ function! airline_settings#Setup() abort
                 \ 'normal':  120,
                 \ }, get(g:, 'airline_winwidth_config', {}))
 
+    " Do not draw separators for empty sections for the active window
+    " let g:airline_skip_empty_sections = 1
+
     " Enable iminsert
     let g:airline_detect_iminsert = 1
 
@@ -190,6 +193,15 @@ endfunction
 function! airline_settings#AirlineAfterInit() abort
     setglobal showtabline=1 noshowmode
 
+    " Integrate with gutentags and grepper
+    let g:airline_section_x = airline#section#create_right([
+                \ 'gutentags',
+                \ 'grepper',
+                \ ])
+
+    " call airline#parts#define_condition('gutentags', 'g:loaded_gutentags == 1')
+    " call airline#parts#define_condition('grepper', 'g:loaded_grepper == 1')
+ 
     " Overwrite for Terminal
     call airline#parts#define('linenr', {
                 \ 'raw':    '%l',
