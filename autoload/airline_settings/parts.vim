@@ -3,7 +3,7 @@ function! s:ClipboardStatus(...) abort
 endfunction
 
 function! s:SpellStatus(...) abort
-    let spell = airline_settings#Strip(airline#parts#spell())
+    let spell = airline_settings#Trim(airline#parts#spell())
     return empty(spell) ? '' : (g:airline_symbols.space . spell)
 endfunction
 

@@ -1,9 +1,9 @@
-function! airline_settings#Strip(str) abort
+function! airline_settings#Trim(str) abort
     return substitute(a:str, '^\s*\(.\{-}\)\s*$', '\1', '')
 endfunction
 
 if exists('*trim')
-    function! airline_settings#Strip(str) abort
+    function! airline_settings#Trim(str) abort
         return trim(a:str)
     endfunction
 endif
