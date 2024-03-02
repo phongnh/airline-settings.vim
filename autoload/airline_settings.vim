@@ -12,8 +12,20 @@ function! airline_settings#IsClipboardEnabled() abort
     return match(&clipboard, 'unnamed') > -1
 endfunction
 
-function! airline_settings#IsCompact() abort
-    return &spell || &paste || airline_settings#IsClipboardEnabled() || winwidth(0) <= g:airline_winwidth_config.xsmall
+function! airline_settings#IsCompact(...) abort
+    let l:winnr = get(a:, 1, 0)
+    return winwidth(l:winnr) <= g:airline_winwidth_config.compact ||
+                \ count([
+                \   airline_settings#IsClipboardEnabled(),
+                \   &paste,
+                \   &spell,
+                \   &bomb,
+                \   !&eol,
+                \ ], 1) > 1
+endfunction
+
+function! airline_settings#IsInactive() abort
+    return !get(w:, 'airline_active', 1)
 endfunction
 
 function! airline_settings#AfterInit() abort

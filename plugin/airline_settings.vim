@@ -18,7 +18,7 @@ let g:airline_show_linenr     = get(g:, 'airline_show_linenr',     0)
 
 " Window width
 let g:airline_winwidth_config = extend({
-            \ 'xsmall': 60,
+            \ 'compact': 60,
             \ 'small':  80,
             \ 'normal': 120,
             \ }, get(g:, 'airline_winwidth_config', {}))
@@ -105,6 +105,11 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 call extend(g:airline_symbols, {
+            \ 'dos':        '[dos]',
+            \ 'mac':        '[mac]',
+            \ 'unix':       '[unix]',
+            \ 'bomb':       '🅑 ',
+            \ 'noeol':      '∉ ',
             \ 'clipboard':  '🅒 ',
             \ 'paste':      '🅟 ',
             \ 'spell':      '🅢 ',
@@ -134,6 +139,17 @@ else
 endif
 
 let g:airline_show_devicons = g:airline_show_devicons && airline_settings#devicons#Detect()
+
+if g:airline_show_devicons
+    call extend(g:airline_symbols, {
+                \ 'bomb':  "\ue287 ",
+                \ 'noeol': "\ue293 ",
+                \ 'dos':   "\ue70f",
+                \ 'mac':   "\ue711",
+                \ 'unix':  "\ue712",
+                \ })
+    let g:airline_symbols.unix = '[unix]'
+endif
 
 if g:airline_show_devicons && g:airline_show_vim_logo
     " Show Vim Logo in Tabline

@@ -7,13 +7,13 @@ function! s:SpellStatus(...) abort
     return empty(spell) ? '' : (g:airline_symbols.space . spell)
 endfunction
 
-function! airline_settings#parts#Indentation() abort
-    if !get(w:, 'airline_active', 1) || winwidth(0) < g:airline_winwidth_config.small
+function! airline_settings#parts#Indentation(...) abort
+    if airline_settings#IsInactive()
         return ''
     endif
-
     let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
-    if airline_settings#IsCompact()
+    let compact = get(a:, 1, airline_settings#IsCompact())
+    if compact
         return printf(&expandtab ? 'SPC: %d' : 'TAB: %d', l:shiftwidth)
     else
         return printf(&expandtab ? 'Spaces: %d' : 'Tab Size: %d', l:shiftwidth)
@@ -22,15 +22,12 @@ endfunction
 
 function! airline_settings#parts#FileEncodingAndFormat() abort
     let l:encoding = strlen(&fileencoding) ? &fileencoding : &encoding
-    let l:bomb     = &bomb ? '[BOM]' : ''
-    let l:format   = strlen(&fileformat) ? printf('[%s]', &fileformat) : ''
-
-    " Skip common string utf-8[unix]
-    if (l:encoding . l:format) ==# g:airline#parts#ffenc#skip_expected_string
-        return l:bomb
-    endif
-
-    return l:encoding . l:bomb . l:format
+    let l:encoding = (l:encoding ==# 'utf-8') ? '' : l:encoding . ' '
+    let l:bomb     = &bomb ? g:airline_symbols.bomb . ' ' : ''
+    let l:noeol    = &eol ? '' : g:airline_symbols.noeol . ' '
+    let l:format   = get(g:airline_symbols, &fileformat, '[empty]')
+    let l:format   = (l:format ==# '[unix]') ? '' : l:format . ' '
+    return l:encoding . l:bomb . l:noeol . l:format
 endfunction
 
 function! airline_settings#parts#Settings() abort
