@@ -190,6 +190,60 @@ function! airline_settings#Setup() abort
     let g:airline#extensions#zoomwintab#enabled  = 0
 endfunction
 
+function! airline_settings#SetupSection() abort
+    if !exists('g:airline_filetype_overrides')
+        let g:airline_filetype_overrides = {}
+    endif
+
+    call extend(g:airline_filetype_overrides, {
+                \ 'dirvish':         ['Dirvish', '%{airline_settings#dirvish#Folder()}'],
+                \ 'molder':          ['Molder', '%{airline_settings#molder#Folder()}'],
+                \ 'fern':            ['%{airline_settings#fern#Mode()}', '%{airline_settings#fern#Folder()}'],
+                \ 'carbon.explorer': ['Carbon', '%{airline_settings#carbon#Folder()}'],
+                \ 'neo-tree':        ['NeoTree', '%{airline_settings#neotree#Folder()}'],
+                \ 'oil':             ['Oil', '%{airline_settings#oil#Folder()}'],
+                \ 'NvimTree':        ['NvimTree', ''],
+                \ 'CHADTree':        ['CHADTree', ''],
+                \ 'alpha':           ['Alpha', ''],
+                \ })
+
+    " Define extra parts
+    call airline#parts#define_function('status', 'airline_settings#parts#Status')
+    call airline#parts#define_function('settings', 'airline_settings#parts#Settings')
+    call airline#parts#define_function('filetype', 'airline_settings#parts#FileType')
+
+    " Show only mode, clipboard, paste and spell
+    let g:airline_section_a = airline#section#create_left([
+                \ 'mode',
+                \ 'status',
+                \ 'crypt',
+                \ 'iminsert',
+                \ ])
+
+    " Add indentation, file encoding, file format and file type info
+    let g:airline_section_y = airline#section#create_right([
+                \ 'settings',
+                \ 'filetype',
+                \ ])
+
+    let g:airline_section_error = airline#section#create([
+                \ 'neomake_error_count',
+                \ 'ale_error_count',
+                \ 'lsp_error_count',
+                \ 'nvimlsp_error_count',
+                \ 'vim9lsp_error_count',
+                \ ])
+
+    let g:airline_section_warning = airline#section#create([
+                \ 'neomake_warning_count',
+                \ 'ale_warning_count',
+                \ 'lsp_warning_count',
+                \ 'nvimlsp_warning_count',
+                \ 'vim9lsp_warning_count',
+                \ 'whitespace',
+                \ ])
+endfunction
+
 function! airline_settings#AirlineAfterInit() abort
     setglobal showtabline=1 noshowmode
 
