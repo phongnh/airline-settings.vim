@@ -1,5 +1,30 @@
+function! s:BufferType() abort
+    return strlen(&filetype) ? &filetype : &buftype
+endfunction
+
+function! s:FileName() abort
+    let fname = expand('%')
+    return strlen(fname) ? fnamemodify(fname, ':~:.') : '[No Name]'
+endfunction
+
+function! s:IsClipboardEnabled() abort
+    return match(&clipboard, 'unnamed') > -1
+endfunction
+
+function! s:IsCompact(...) abort
+    let l:winnr = get(a:, 1, 0)
+    return winwidth(l:winnr) <= g:airline_winwidth_config.compact ||
+                \ count([
+                \   s:IsClipboardEnabled(),
+                \   &paste,
+                \   &spell,
+                \   &bomb,
+                \   !&eol,
+                \ ], 1) > 1
+endfunction
+
 function! s:ClipboardStatus(...) abort
-    return airline_settings#IsClipboardEnabled() ? g:airline_symbols.clipboard : ''
+    return s:IsClipboardEnabled() ? g:airline_symbols.clipboard : ''
 endfunction
 
 function! s:SpellStatus(...) abort
@@ -23,7 +48,7 @@ endfunction
 
 function! s:IndentationStatus(...) abort
     let l:shiftwidth = exists('*shiftwidth') ? shiftwidth() : &shiftwidth
-    let compact = get(a:, 1, airline_settings#IsCompact())
+    let compact = get(a:, 1, s:IsCompact())
     if compact
         return printf(&expandtab ? 'SPC: %d' : 'TAB: %d', l:shiftwidth)
     else
@@ -53,7 +78,7 @@ endfunction
 
 function! airline_settings#parts#FileType(...) abort
     if get(w:, 'airline_active', 0)
-        return airline_settings#BufferType() . airline_settings#devicons#FileType(expand('%'))
+        return s:BufferType() . airline_settings#devicons#FileType(expand('%'))
     endif
     return ''
 endfunction

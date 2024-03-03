@@ -8,34 +8,9 @@ if exists('*trim')
     endfunction
 endif
 
-function! airline_settings#IsClipboardEnabled() abort
-    return match(&clipboard, 'unnamed') > -1
-endfunction
-
-function! airline_settings#IsCompact(...) abort
-    let l:winnr = get(a:, 1, 0)
-    return winwidth(l:winnr) <= g:airline_winwidth_config.compact ||
-                \ count([
-                \   airline_settings#IsClipboardEnabled(),
-                \   &paste,
-                \   &spell,
-                \   &bomb,
-                \   !&eol,
-                \ ], 1) > 1
-endfunction
-
 function! airline_settings#Concatenate(parts, ...) abort
     let separator = get(a:, 1, 0) ? g:airline_right_alt_sep : g:airline_left_alt_sep
     return join(filter(copy(a:parts), 'v:val !=# ""'), g:airline_symbols.space . separator . g:airline_symbols.space)
-endfunction
-
-function! airline_settings#BufferType() abort
-    return strlen(&filetype) ? &filetype : &buftype
-endfunction
-
-function! airline_settings#FileName() abort
-    let fname = expand('%')
-    return strlen(fname) ? fnamemodify(fname, ':~:.') : '[No Name]'
 endfunction
 
 function! airline_settings#Setup() abort
@@ -52,7 +27,7 @@ function! airline_settings#Setup() abort
     " Window width
     let g:airline_winwidth_config = extend({
                 \ 'compact': 60,
-                \ 'small':   80,
+                \ 'default': 90,
                 \ 'normal':  120,
                 \ }, get(g:, 'airline_winwidth_config', {}))
 
@@ -255,7 +230,7 @@ function! airline_settings#AirlineAfterInit() abort
 
     " call airline#parts#define_condition('gutentags', 'g:loaded_gutentags == 1')
     " call airline#parts#define_condition('grepper', 'g:loaded_grepper == 1')
- 
+
     " Overwrite for Terminal
     call airline#parts#define('linenr', {
                 \ 'raw':    '%l',
@@ -272,7 +247,7 @@ function! airline_settings#AirlineAfterInit() abort
         if g:airline_show_linenr > 2
             let l:format = '%4l:%-3v %P'
         elseif g:airline_show_linenr > 1
-            let l:format = '%4l:%-3v' 
+            let l:format = '%4l:%-3v'
         else
             let l:format = '%3l:%-3v'
         endif
