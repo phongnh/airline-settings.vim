@@ -81,7 +81,9 @@ function! airline_settings#Setup() abort
                 \ 'dirty':      '',
                 \ })
 
-    if g:airline_powerline_fonts
+    let g:airline_show_devicons = g:airline_show_devicons && airline_settings#devicons#Detect()
+
+    if g:airline_powerline_fonts || g:airline_show_devicons
         call airline_settings#powerline#SetSeparators(get(g:, 'airline_powerline_style', 'default'), get(g:, 'airline_powerline_tab_style', 'default'))
     else
         let g:airline_left_sep      = ''
@@ -101,8 +103,6 @@ function! airline_settings#Setup() abort
                     \ 'readonly': '',
                     \ })
     endif
-
-    let g:airline_show_devicons = g:airline_show_devicons && airline_settings#devicons#Detect()
 
     if g:airline_show_devicons
         call extend(g:airline_symbols, {
