@@ -19,8 +19,8 @@ function! airline_settings#Setup() abort
 
     " Settings
     let g:airline_powerline_fonts = get(g:, 'airline_powerline_fonts', 0)
-    let g:airline_show_devicons   = get(g:, 'airline_show_devicons',   1)
-    let g:airline_show_git_branch = get(g:, 'airline_show_git_branch', 1)
+    let g:airline_show_devicons   = get(g:, 'airline_show_devicons',   0)
+    let g:airline_show_git_branch = get(g:, 'airline_show_git_branch', 0)
     let g:airline_show_linenr     = get(g:, 'airline_show_linenr',     0)
     let g:airline_show_vim_logo   = get(g:, 'airline_show_vim_logo',   1)
 
