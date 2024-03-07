@@ -180,6 +180,8 @@ function! airline_settings#SetupSection() abort
                 \ 'NvimTree':        ['NvimTree', ''],
                 \ 'CHADTree':        ['CHADTree', ''],
                 \ 'alpha':           ['Alpha', ''],
+                \ 'vista':           ['Vista', '%{airline_settings#vista#Mode()}'],
+                \ 'vista_kind':      ['Vista', '%{airline_settings#vista#Mode()}'],
                 \ })
 
     " Define extra parts
