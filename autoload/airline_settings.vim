@@ -19,10 +19,9 @@ function! airline_settings#Setup() abort
 
     " Settings
     let g:airline_powerline_fonts = get(g:, 'airline_powerline_fonts', 0)
-    let g:airline_show_devicons   = get(g:, 'airline_show_devicons',   0)
     let g:airline_show_git_branch = get(g:, 'airline_show_git_branch', 0)
     let g:airline_show_linenr     = get(g:, 'airline_show_linenr',     0)
-    let g:airline_show_vim_logo   = get(g:, 'airline_show_vim_logo',   1)
+    let g:airline_show_devicons   = get(g:, 'airline_show_devicons',   0) && airline_settings#devicons#Detect()
 
     " Window width
     let g:airline_winwidth_config = extend({
@@ -81,8 +80,6 @@ function! airline_settings#Setup() abort
                 \ 'dirty':      '',
                 \ })
 
-    let g:airline_show_devicons = g:airline_show_devicons && airline_settings#devicons#Detect()
-
     if g:airline_powerline_fonts || g:airline_show_devicons
         call airline_settings#powerline#SetSeparators(get(g:, 'airline_powerline_style', 'default'), get(g:, 'airline_powerline_tab_style', 'default'))
     else
@@ -113,9 +110,6 @@ function! airline_settings#Setup() abort
                     \ 'unix':  "\ue712",
                     \ })
         let g:airline_symbols.unix = '[unix]'
-    endif
-
-    if g:airline_show_devicons && g:airline_show_vim_logo
         " Show Vim Logo in Tabline
         let g:airline#extensions#tabline#tabs_label    = "\ue7c5" . ' '
         let g:airline#extensions#tabline#buffers_label = "\ue7c5" . ' '
