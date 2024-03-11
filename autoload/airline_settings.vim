@@ -165,6 +165,7 @@ function! airline_settings#SetupSection() abort
     endif
 
     call extend(g:airline_filetype_overrides, {
+                \ 'simplebuffer':    ['SimpleBuffer', ''],
                 \ 'dirvish':         ['Dirvish', '%{airline_settings#dirvish#Folder()}'],
                 \ 'molder':          ['Molder', '%{airline_settings#molder#Folder()}'],
                 \ 'fern':            ['%{airline_settings#fern#Mode()}', '%{airline_settings#fern#Folder()}'],
