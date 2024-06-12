@@ -35,6 +35,10 @@ function! s:SpellStatus(...) abort
     return &spell ? toupper(substitute(&spelllang, ',', '/', 'g')) : ''
 endfunction
 
+function! airline_settings#parts#ZoomedStatus(...) abort
+    return g:airline_zoomed ? '[Z]' : ''
+endfunction
+
 function! airline_settings#parts#Status() abort
     if get(w:, 'airline_active', 0)
         return airline_settings#Concatenate([

@@ -220,6 +220,9 @@ endfunction
 function! airline_settings#AirlineAfterInit() abort
     setglobal showtabline=1 noshowmode
 
+    " Integrate with ZoomWin
+    let g:airline_section_c .= '%{airline_settings#parts#ZoomedStatus()}'
+
     " Integrate with gutentags and grepper
     let g:airline_section_x = airline#section#create_right([
                 \ 'gutentags',
@@ -261,6 +264,24 @@ function! airline_settings#AirlineAfterInit() abort
 endfunction
 
 function! airline_settings#Init() abort
+    " ZoomWin Integration
+    let g:airline_zoomed = 0
+
+    if exists(':ZoomWin') == 2
+        let g:airline_zoomwin_funcref = []
+
+        if exists('g:ZoomWin_funcref')
+            if type(g:ZoomWin_funcref) == v:t_func
+                let g:airline_zoomwin_funcref = [g:ZoomWin_funcref]
+            elseif type(g:ZoomWin_funcref) == v:t_func
+                let g:airline_zoomwin_funcref = g:ZoomWin_funcref
+            endif
+            let g:airline_zoomwin_funcref = uniq(copy(g:airline_zoomwin_funcref))
+        endif
+
+        let g:ZoomWin_funcref = function('airline_settings#zoomwin#Status')
+    endif
+
     " Copied from https://github.com/vim-airline/vim-airline/blob/master/autoload/airline/extensions/tabline/formatters/default.vim
     " Show buffer nr in Buffers mode
     function! airline#extensions#tabline#formatters#default#wrap_name(bufnr, buffer_name) abort
