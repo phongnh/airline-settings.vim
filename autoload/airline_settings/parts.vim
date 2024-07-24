@@ -36,7 +36,7 @@ function! s:SpellStatus(...) abort
 endfunction
 
 function! airline_settings#parts#ZoomedStatus(...) abort
-    return g:airline_zoomed ? '[Z]' : ''
+    return get(g:, 'airline_zoomed', 0) ? '[Z]' : ''
 endfunction
 
 function! airline_settings#parts#Status() abort
