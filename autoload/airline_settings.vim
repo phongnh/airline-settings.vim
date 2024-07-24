@@ -176,6 +176,7 @@ function! airline_settings#SetupSection() abort
                 \ 'CHADTree':        ['CHADTree', ''],
                 \ 'alpha':           ['Alpha', ''],
                 \ 'dashboard':       ['Dashboard', ''],
+                \ 'ministarter':     ['Starter', ''],
                 \ 'vista':           ['Vista', '%{airline_settings#vista#Mode()}'],
                 \ 'vista_kind':      ['Vista', '%{airline_settings#vista#Mode()}'],
                 \ })
