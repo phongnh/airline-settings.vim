@@ -43,7 +43,6 @@ let g:airline#extensions#tabline#buffer_nr_show  = 1
 let g:airline#extensions#tabline#fnamemod        = ':t'
 let g:airline#extensions#tabline#fnametruncate   = 30
 
-let g:airline#extensions#branch#enabled = g:airline_show_git_branch
 " Branch - show only 30 characters of branch name
 let g:airline#extensions#branch#displayed_head_limit = 30
 " Disable untracked and dirty checks
@@ -182,6 +181,12 @@ let g:airline_section_a = airline#section#create_left([
             \ 'crypt',
             \ 'iminsert',
             \ ])
+
+if g:airline_show_git_branch
+    let g:airline_section_b = airline#section#create(['branhch'])
+else
+    let g:airline_section_b = ''
+endif
 
 " Add indentation, file encoding, file format and file type info
 let g:airline_section_y = airline#section#create_right([
