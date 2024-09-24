@@ -40,19 +40,34 @@ function! airline_settings#AirlineAfterInit() abort
                 \ 'accent': 'bold',
                 \ })
 
+    call airline#parts#define('longlineinfo', {
+                \ 'raw':    '%4l:%-3v %P',
+                \ 'accent': 'bold',
+                \ })
+
+    call airline#parts#define('simplelineinfo', {
+                \ 'raw':    '%3l:%-3v',
+                \ 'accent': 'bold',
+                \ })
+
+    call airline#parts#define('lineinfo', {
+                \ 'raw':    '%4l:%-3v',
+                \ 'accent': 'bold',
+                \ })
+
+    call airline#parts#define('fulllineinfo', {
+                \ 'raw':    '%4l:%-3v %P',
+                \ 'accent': 'bold',
+                \ })
+
     if g:airline_show_linenr > 0
         if g:airline_show_linenr > 2
-            let l:format = '%4l:%-3v %P'
+            let g:airline_section_z = airline#section#create(['fulllineinfo'])
         elseif g:airline_show_linenr > 1
-            let l:format = '%4l:%-3v'
+            let g:airline_section_z = airline#section#create(['lineinfo'])
         else
-            let l:format = '%3l:%-3v'
+            let g:airline_section_z = airline#section#create(['simplelineinfo'])
         endif
-        call airline#parts#define('lineinfo', {
-                    \ 'raw':    l:format,
-                    \ 'accent': 'bold',
-                    \ })
-        let g:airline_section_z = airline#section#create(['lineinfo'])
     else
         " Hide percentage, linenr, maxlinenr and column
         let g:airline_section_z = ''
